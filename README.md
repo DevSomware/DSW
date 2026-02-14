@@ -1,36 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DSW - Next.js Project
 
-## Getting Started
+This is a modern [Next.js](https://nextjs.org) project configured with industry best practices for TypeScript development, code quality, testing, and deployment.
 
-First, run the development server:
+## 🚀 Features
+
+- ⚡ **Next.js 16** - Latest Next.js with App Router
+- 🔷 **TypeScript** - Strict TypeScript configuration for type safety
+- 🎨 **Tailwind CSS v4** - Modern utility-first CSS framework
+- ✅ **ESLint + Prettier** - Code linting and formatting
+- 🐶 **Husky + lint-staged** - Pre-commit hooks for code quality
+- 🧪 **Jest + React Testing Library** - Comprehensive testing setup
+- 📊 **Bundle Analyzer** - Analyze and optimize bundle size
+- 🤖 **GitHub Actions** - Automated CI/CD pipeline
+- 🗺️ **SEO Optimized** - Sitemap and robots.txt configuration
+- 📁 **Absolute Imports** - Clean imports with `@/` prefix
+
+## 📦 Getting Started
+
+### Prerequisites
+
+- Node.js 20+
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Setup Git hooks:
+
+```bash
+npm run prepare
+```
+
+4. Copy environment variables:
+
+```bash
+cp .env.example .env.local
+```
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see your application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
+- `npm test` - Run tests
+- `npm run test:watch` - Run tests in watch mode
+- `npm run test:coverage` - Generate test coverage report
+- `npm run analyze` - Analyze bundle size
 
-## Learn More
+## 🧪 Testing
 
-To learn more about Next.js, take a look at the following resources:
+This project uses Jest and React Testing Library for testing. Test files should be placed in the `__tests__` directory or co-located with components using the `.test.tsx` or `.spec.tsx` naming convention.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run tests:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm test
+```
 
-## Deploy on Vercel
+## 🎨 Code Quality
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ESLint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ESLint is configured with Next.js recommended rules and Prettier integration. Run:
+
+```bash
+npm run lint
+```
+
+### Prettier
+
+Code formatting is enforced with Prettier. Format your code:
+
+```bash
+npm run format
+```
+
+### Pre-commit Hooks
+
+Husky and lint-staged automatically run linting and formatting on staged files before each commit, ensuring consistent code quality.
+
+## 📊 Bundle Analysis
+
+Analyze your production bundle to identify optimization opportunities:
+
+```bash
+npm run analyze
+```
+
+## 🔄 CI/CD
+
+GitHub Actions workflow automatically runs on push and pull requests:
+
+- ✅ Code quality checks (ESLint, Prettier, TypeScript)
+- ✅ Test suite with coverage
+- ✅ Production build verification
+
+## 🗺️ SEO
+
+- **Sitemap**: Auto-generated at `/sitemap.xml`
+- **Robots.txt**: Auto-generated at `/robots.txt`
+
+Update `NEXT_PUBLIC_BASE_URL` in your environment variables to configure the base URL.
+
+## 📁 Project Structure
+
+```
+dsw/
+├── app/              # Next.js app directory
+│   ├── layout.tsx    # Root layout
+│   ├── page.tsx      # Home page
+│   ├── sitemap.ts    # Sitemap configuration
+│   └── robots.ts     # Robots.txt configuration
+├── __tests__/        # Test files
+├── public/           # Static assets
+├── .github/          # GitHub Actions workflows
+├── .husky/           # Git hooks
+└── ...config files
+```
+
+## 🔧 Configuration Files
+
+- `next.config.ts` - Next.js configuration with bundle analyzer
+- `tsconfig.json` - TypeScript configuration with path aliases
+- `eslint.config.mjs` - ESLint configuration
+- `.prettierrc` - Prettier configuration
+- `jest.config.ts` - Jest configuration
+- `tailwind.config.ts` - Tailwind CSS configuration
+
+## 📚 Learn More
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Testing Library Documentation](https://testing-library.com/docs/)
+
+## 🚀 Deploy
+
+Deploy easily on [Vercel](https://vercel.com):
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+Or follow [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for other platforms.
