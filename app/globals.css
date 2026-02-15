@@ -7,10 +7,5 @@ body {
   padding: 0;
   background: #000;
   color: #fff;
-  overscroll-behavior: none;
   overflow-x: hidden;
-}
-
-#__next {
-  height: 100%;
 }

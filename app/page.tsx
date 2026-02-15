@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Hero } from '@/app/components/Hero';
+import  ContentSection  from '@/app/components/ContentSection';
 import Preloader from '@/app/components/Preloader';
 
 export default function Home() {
@@ -18,7 +19,6 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Show white screen until mounted
   if (!mounted) {
     return <div className="fixed inset-0 bg-white z-[9999]" />;
   }
@@ -28,8 +28,9 @@ export default function Home() {
   }
 
   return (
-    <main className="h-[100dvh] w-full overflow-hidden bg-black">
+    <main className="w-full bg-black">
       <Hero />
+      <ContentSection />
     </main>
   );
 }

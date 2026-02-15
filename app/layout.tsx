@@ -30,15 +30,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <style dangerouslySetInnerHTML={{__html: `
-          html, body { 
-            background: #000000 !important; 
-            margin: 0;
-            padding: 0;
-          }
-        `}} />
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${museoModerno.variable} antialiased`}>
         {children}
       </body>
