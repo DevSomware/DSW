@@ -194,12 +194,12 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      <div className="relative  z-20 flex items-start top-4 sm:items-center pt-32 sm:pt-24 lg:pt-20 xl:pt-0 pb-10 sm:pb-0 min-h-[100svh] sm:min-h-[100dvh]">
+      <div className="relative  z-20 flex items-start -top-10 sm:top-4 lg:top-4 sm:items-center pt-32 sm:pt-24 lg:pt-20 xl:pt-0 pb-10 sm:pb-0 min-h-[100svh] sm:min-h-[100dvh]">
         <div className="w-full px-6 sm:px-10 lg:px-20">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-8 xl:gap-10">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-16 xl:gap-20">
          
             <motion.div 
-              className="max-w-4xl relative sm:left-20 sm:top-5 -top-10 lg:left-10 flex-1 lg:max-w-[52%]"
+              className="max-w-4xl flex-1 lg:max-w-[50%] w-full"
               variants={staggerContainer}
               initial="initial"
               animate="animate"
@@ -319,7 +319,6 @@ export function Hero() {
               </motion.div>
             </motion.div>
 
-   
            
           </div>
         </div>
