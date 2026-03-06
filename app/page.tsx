@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { Hero } from '@/app/components/Hero';
-import  ContentSection  from '@/app/components/ContentSection';
+import ContentSection from '@/app/components/ContentSection';
 import Preloader from '@/app/components/Preloader';
+import ScrollRibbon from '@/app/components/ScrollRibbon';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,6 +31,7 @@ export default function Home() {
   return (
     <main className="w-full bg-black">
       <Hero />
+      <ScrollRibbon />
       <ContentSection />
     </main>
   );
