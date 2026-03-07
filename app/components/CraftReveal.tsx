@@ -113,7 +113,7 @@ export default function CraftReveal() {
   const frameRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const mobileBulletsRef = useRef<HTMLDivElement>(null);
   const overlayTitleRef = useRef<HTMLDivElement>(null);
@@ -128,7 +128,7 @@ export default function CraftReveal() {
     const frame = frameRef.current;
     const logo = logoRef.current;
     const mask = maskRef.current;
-    const image = imageRef.current;
+    const video = imageRef.current;
     const content = contentRef.current;
 
     if (
@@ -139,7 +139,7 @@ export default function CraftReveal() {
       !frame ||
       !logo ||
       !mask ||
-      !image ||
+      !video ||
       !content
     )
       return;
@@ -160,7 +160,7 @@ export default function CraftReveal() {
       if (overlayTitleRef.current) gsap.set(overlayTitleRef.current, { opacity: 0, y: 14 });
       gsap.set(logo, { opacity: 0.9, scale: 1, y: 0 });
       gsap.set(mask, { opacity: 0 });
-      gsap.set(image, {
+      gsap.set(video, {
         scale: isMobile ? 1.14 : 1.1,
         transformOrigin: "center center",
       });
@@ -187,6 +187,14 @@ export default function CraftReveal() {
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            // Play video once the mask reveal begins (progress ~0.4+)
+            if (self.progress > 0.35) {
+              if (video.paused) video.play();
+            } else {
+              if (!video.paused) { video.pause(); video.currentTime = 0; }
+            }
+          },
         },
       });
 
@@ -272,7 +280,7 @@ export default function CraftReveal() {
           0.42,
         )
         .to(
-          image,
+          video,
           {
             scale: 1,
             ease: "power2.out",
@@ -398,10 +406,14 @@ export default function CraftReveal() {
                     style={maskStyle}
                     className="relative z-[2] h-full w-full overflow-hidden"
                   >
-                    <div
+                    <video
                       ref={imageRef}
-                      className="absolute inset-0 bg-cover bg-center"
-                      style={{ backgroundImage: "url('/assets/bann.png')" }}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      src="/banner.mp4"
+                      muted
+                      loop
+                      playsInline
+                      preload="auto"
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04),rgba(0,0,0,0.12)_48%,rgba(0,0,0,0.34))]" />
                   </div>
