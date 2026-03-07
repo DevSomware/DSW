@@ -434,7 +434,7 @@ export default function CraftReveal() {
 
         <div
           ref={contentRef}
-          className="relative z-20 shrink-0 -top-30 pt-3 text-center sm:pt-5 lg:pt-8"
+          className="relative z-20 shrink-0 lg:-top-20 -top-40 sm:-top-20 pt-3 text-center sm:pt-5 lg:pt-8"
         >
           <h3 className="font-[family-name:var(--font-museo-moderno)] text-[clamp(1.5rem,3.8vw,3.2rem)] font-bold leading-[1.04] tracking-[-0.04em] text-black/88">
             Made with Craft, Poured with Passion
