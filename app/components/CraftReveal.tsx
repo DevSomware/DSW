@@ -90,10 +90,214 @@ const bulletIcon = (
   </svg>
 );
 
-const SWIRL_PATH =
-  "M337.591,0.932c-13.464,6.12-26.315,12.852-39.168,20.196c-11.628,6.12-25.704,12.24-35.496,21.42c-5.508,4.896,0,15.3,7.344,12.852c0,0,0.612,0,0.612-0.612c1.836,1.224,3.061,2.448,4.896,4.284c0,0.612,0.611,1.836,0.611,2.448c0.612,1.224,1.836,2.448,3.061,3.672c-17.748,33.048-34.272,66.096-55.08,96.696c-6.12,9.18-12.853,17.748-20.808,25.704c-19.584-31.212-51.409-67.32-89.965-60.588c-50.796,9.18-23.256,63.647,3.06,82.008c31.212,22.644,58.14,21.42,85.068,0c12.24,20.808,20.809,44.063,19.584,66.708c-1.836,54.468-50.796,63.647-91.8,49.571c6.12-15.912,7.956-34.271,4.284-50.184c-6.12-28.764-50.184-54.468-75.888-34.272c-25.092,20.196,22.032,71.604,37.332,82.009c4.284,3.06,9.18,6.119,14.076,8.567c-0.612,0.612-0.612,1.225-1.224,1.836c-28.152,44.064-65.484,6.12-82.62-25.092c-2.448-4.896-9.18-0.612-7.344,4.284c14.076,32.436,42.84,70.38,81.396,48.348c9.18-5.508,17.136-13.464,22.644-23.256c33.66,13.464,72.829,13.464,97.308-17.136c29.376-36.72,11.017-84.456-8.567-119.952c0.611-0.612,0.611-0.612,1.224-1.224c34.884-33.66,56.304-81.396,78.336-124.236c4.284,3.06,9.181,6.12,13.464,9.18c3.061,1.836,7.345,1.224,9.792-1.224c17.748-20.808,31.212-45.9,35.496-73.44C351.055,2.768,344.324-2.128,337.591,0.932z M178.471,207.787c-23.256,13.464-46.512-3.06-63.648-18.972c-22.644-20.808-16.524-54.468,18.36-47.735c17.748,3.672,31.824,19.584,43.452,32.436c6.12,6.732,12.241,14.687,17.749,23.255C189.488,201.056,183.979,204.728,178.471,207.787z M116.047,319.171C116.047,319.171,115.435,319.171,116.047,319.171c-16.524-8.567-28.764-20.808-38.556-36.107c-4.284-6.732-7.956-14.076-9.792-22.032c-6.12-20.808,26.928-10.404,35.496-6.12C126.451,267.764,124.615,297.14,116.047,319.171z M306.379,67.028c-0.612,0-0.612-0.612-1.224-0.612c0-1.836-1.225-3.672-3.672-4.896c-4.284-1.836-8.568-4.284-12.853-6.732c-1.836-1.224-5.508-4.896-5.508-3.672c0-0.612-0.612-1.224-1.224-1.224c6.731-3.672,13.464-8.568,20.195-12.24c8.568-4.896,17.748-9.792,26.929-14.688C324.74,38.264,316.784,53.564,306.379,67.028z";
+function ArchitecturalBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number>(0);
+  const pulses = useRef<
+    { x: number; y: number; r: number; opacity: number; speed: number }[]
+  >([]);
+  const scanlineRef = useRef<number>(0);
 
-const SWIRL_VIEWBOX = "0 0 367.339 367.34";
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const GRID_STEP = 36;
+    const DOT_R = 1.05;
+
+    let W = 0;
+    let H = 0;
+    let cols = 0;
+    let rows = 0;
+
+    function resize() {
+      if (!canvas) return;
+      W = canvas.offsetWidth;
+      H = canvas.offsetHeight;
+      canvas.width = W * devicePixelRatio;
+      canvas.height = H * devicePixelRatio;
+      ctx!.scale(devicePixelRatio, devicePixelRatio);
+      cols = Math.ceil(W / GRID_STEP) + 1;
+      rows = Math.ceil(H / GRID_STEP) + 1;
+    }
+
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+
+    function spawnPulse() {
+      const col = Math.floor(Math.random() * cols);
+      const row = Math.floor(Math.random() * rows);
+      pulses.current.push({
+        x: col * GRID_STEP,
+        y: row * GRID_STEP,
+        r: 0,
+        opacity: 0.55,
+        speed: 0.55 + Math.random() * 0.45,
+      });
+    }
+
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => spawnPulse(), i * 900);
+    }
+    const spawnInterval = setInterval(spawnPulse, 1800);
+
+    function draw(t: number) {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, W, H);
+
+      scanlineRef.current = (t * 0.025) % W;
+      const scan = scanlineRef.current;
+
+      for (let c = 0; c < cols; c++) {
+        for (let r = 0; r < rows; r++) {
+          const x = c * GRID_STEP;
+          const y = r * GRID_STEP;
+
+          const distFromScan = Math.abs(x - scan);
+          const scanGlow = Math.max(0, 1 - distFromScan / 120) * 0.28;
+
+          const base = 0.08 + scanGlow;
+
+          let pulseBoost = 0;
+          for (const p of pulses.current) {
+            const d = Math.hypot(x - p.x, y - p.y);
+            const ring = Math.abs(d - p.r);
+            if (ring < 18) {
+              pulseBoost = Math.max(
+                pulseBoost,
+                (1 - ring / 18) * p.opacity * 0.65
+              );
+            }
+          }
+
+          const alpha = Math.min(base + pulseBoost, 0.88);
+          ctx.beginPath();
+          ctx.arc(x, y, DOT_R, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0,0,0,${alpha})`;
+          ctx.fill();
+        }
+      }
+
+      const grad = ctx.createLinearGradient(scan - 50, 0, scan + 50, 0);
+      grad.addColorStop(0, "rgba(0,0,0,0)");
+      grad.addColorStop(0.45, "rgba(0,0,0,0.04)");
+      grad.addColorStop(0.5, "rgba(0,0,0,0.07)");
+      grad.addColorStop(0.55, "rgba(0,0,0,0.04)");
+      grad.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(scan - 50, 0, 100, H);
+
+      for (const p of pulses.current) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(0,0,0,${p.opacity * 0.22})`;
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        if (p.r > 10) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * 0.6, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(0,0,0,${p.opacity * 0.1})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+
+        p.r += p.speed;
+        p.opacity -= 0.0032;
+      }
+
+      pulses.current = pulses.current.filter((p) => p.opacity > 0);
+
+      rafRef.current = requestAnimationFrame(draw);
+    }
+
+    rafRef.current = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      clearInterval(spawnInterval);
+      ro.disconnect();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      style={{ opacity: 0.85 }}
+    />
+  );
+}
+
+function CornerBrackets() {
+  return (
+    <>
+      {[
+        { top: "5%", left: "4%", rotate: "0deg" },
+        { top: "5%", right: "4%", rotate: "90deg" },
+        { bottom: "5%", left: "4%", rotate: "270deg" },
+        { bottom: "5%", right: "4%", rotate: "180deg" },
+      ].map((style, i) => (
+        <motion.svg
+          key={i}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.3 + i * 0.12, ease: [0.33, 1, 0.68, 1] }}
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          fill="none"
+          className="pointer-events-none absolute"
+          style={{ ...style, transform: `rotate(${style.rotate})` } as CSSProperties}
+          aria-hidden="true"
+        >
+          <path
+            d="M1 11V2H11"
+            stroke="rgba(0,0,0,0.28)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </motion.svg>
+      ))}
+    </>
+  );
+}
+
+function RuledLines() {
+  return (
+    <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      {[18, 34, 52, 68, 84].map((pct) => (
+        <motion.div
+          key={pct}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{
+            duration: 1.4,
+            delay: 0.1 + pct * 0.007,
+            ease: [0.33, 1, 0.68, 1],
+          }}
+          style={{
+            position: "absolute",
+            top: `${pct}%`,
+            left: 0,
+            right: 0,
+            height: "1px",
+            background:
+              pct === 52
+                ? "rgba(0,0,0,0.06)"
+                : "rgba(0,0,0,0.035)",
+            transformOrigin: "left",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 function BulletList({
   items,
@@ -133,9 +337,6 @@ export default function CraftReveal() {
   const overlayTitleRef = useRef<HTMLDivElement>(null);
   const borderRef = useRef<HTMLDivElement>(null);
 
-  const swirlPathMobileRef = useRef<SVGPathElement>(null);
-  const swirlPathDesktopRef = useRef<SVGPathElement>(null);
-
   const inView = useInView(borderRef, { once: true, margin: "-60px" });
 
   useEffect(() => {
@@ -165,7 +366,6 @@ export default function CraftReveal() {
     const ctx = gsap.context(() => {
       const fades = gsap.utils.toArray<HTMLElement>(".art-fade", section);
       const isMobile = window.matchMedia("(max-width: 767px)").matches;
-      const isCompact = window.matchMedia("(max-width: 1023px)").matches;
 
       const targetWidth = isMobile
         ? Math.max(window.innerWidth - 56, 240)
@@ -174,20 +374,6 @@ export default function CraftReveal() {
       const initWidth = isMobile
         ? Math.min(window.innerWidth * 0.62, 250)
         : Math.min(window.innerWidth * 0.26, 360);
-
-      const swirlPath = isCompact
-        ? swirlPathMobileRef.current
-        : swirlPathDesktopRef.current;
-
-      const inactivePath = isCompact
-        ? swirlPathDesktopRef.current
-        : swirlPathMobileRef.current;
-
-      if (inactivePath) gsap.set(inactivePath, { opacity: 0 });
-
-      if (!swirlPath) return;
-
-      const swirlLength = swirlPath.getTotalLength();
 
       gsap.set(content, { opacity: 0, y: 22 });
       if (overlayTitleRef.current)
@@ -201,12 +387,6 @@ export default function CraftReveal() {
       gsap.set(topBlock, {
         height: topBlock.offsetHeight,
         overflow: "hidden",
-      });
-
-      gsap.set(swirlPath, {
-        opacity: 0,
-        strokeDasharray: swirlLength,
-        strokeDashoffset: -swirlLength,
       });
 
       gsap.set(frame, {
@@ -286,24 +466,6 @@ export default function CraftReveal() {
           0
         );
       }
-
-      tl.to(
-        swirlPath,
-        {
-          opacity: 1,
-          ease: "power1.out",
-          duration: 0.08,
-        },
-        0.1
-      ).to(
-        swirlPath,
-        {
-          strokeDashoffset: 0,
-          ease: "power1.inOut",
-          duration: 0.42,
-        },
-        0.12
-      );
 
       tl.to(
         logo,
@@ -396,66 +558,111 @@ export default function CraftReveal() {
         aria-hidden="true"
         className="object-cover opacity-[0.1]"
       />
+
+      <ArchitecturalBackground />
+      <RuledLines />
+
       <div className="pointer-events-none absolute inset-0 bg-[url('/assets/noise.png')] bg-[length:200px_200px] opacity-[0.03] mix-blend-multiply" />
+
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.70),transparent_55%),linear-gradient(180deg,rgba(255,255,255,0.30),transparent_35%,rgba(0,0,0,0.03))]" />
 
+      {/* Border frame — overflow hidden so nothing escapes */}
       <div
         ref={borderRef}
-        className="absolute inset-1.5 pointer-events-none z-10 sm:inset-2 md:inset-3"
+        className="absolute inset-x-1.5 -top-2 bottom-0 pointer-events-none z-10 overflow-hidden sm:inset-x-2 md:inset-x-3"
       >
         {inView && (
           <>
-            <VBorder pos="left" offset={0} overhang={14} opacity={0.82} delay={0.1} />
-            <VBorder pos="right" offset={0} overhang={14} opacity={0.82} delay={0.25} />
-            <VBorder pos="left" offset={7} overhang={7} opacity={0.45} delay={0.35} />
-            <VBorder pos="right" offset={7} overhang={7} opacity={0.45} delay={0.45} />
+            <VBorder pos="left" offset={0} overhang={0} opacity={0.82} delay={0.1} />
+            <VBorder pos="right" offset={0} overhang={0} opacity={0.82} delay={0.25} />
+            <VBorder pos="left" offset={7} overhang={0} opacity={0.45} delay={0.35} />
+            <VBorder pos="right" offset={7} overhang={0} opacity={0.45} delay={0.45} />
           </>
         )}
+
+        <CornerBrackets />
+
+        <motion.div
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
       </div>
 
-      <div className="pointer-events-none absolute top-[2%] left-[10%] right-[16%] bottom-[50%] z-[2] rotate-160 scale-x-[-1] lg:hidden">
-        <svg
-          viewBox={SWIRL_VIEWBOX}
-          preserveAspectRatio="xMinYMin meet"
-          className="h-full w-full overflow-visible"
-          aria-hidden="true"
-        >
-          <path
-            ref={swirlPathMobileRef}
-            d={SWIRL_PATH}
-            fill="none"
-            stroke="rgba(0, 0, 0, 0.48)"
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+      {/* Coordinate label — top left */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.6 }}
+        className="pointer-events-none absolute top-6 left-6 z-20 hidden sm:block"
+        aria-hidden="true"
+      >
+        <span className="font-mono text-[9px] tracking-[0.18em] text-black/20 uppercase">
+          X:0032 / Y:0018
+        </span>
+      </motion.div>
+
+      {/* Coordinate label — bottom right */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.7 }}
+        className="pointer-events-none absolute bottom-6 right-6 z-20 hidden sm:block"
+        aria-hidden="true"
+      >
+        <span className="font-mono text-[9px] tracking-[0.18em] text-black/20 uppercase">
+          CRAFT / DSW-03
+        </span>
+      </motion.div>
+
+      {/* Cross-hair center mark */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.9, ease: [0.33, 1, 0.68, 1] }}
+        className="pointer-events-none absolute top-1/2 right-8 -translate-y-1/2 z-[3] hidden lg:block"
+        aria-hidden="true"
+      >
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="6" stroke="rgba(0,0,0,0.12)" strokeWidth="1" />
+          <circle cx="14" cy="14" r="1.5" fill="rgba(0,0,0,0.18)" />
+          <line x1="14" y1="0" x2="14" y2="8" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeLinecap="round" />
+          <line x1="14" y1="20" x2="14" y2="28" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeLinecap="round" />
+          <line x1="0" y1="14" x2="8" y2="14" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeLinecap="round" />
+          <line x1="20" y1="14" x2="28" y2="14" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeLinecap="round" />
         </svg>
-      </div>
+      </motion.div>
 
-      <div className="pointer-events-none absolute top-[3%] left-[6%] right-[10%] bottom-[18%] z-[2] hidden scale-x-[-1] rotate-155 lg:block">
-        <svg
-          viewBox={SWIRL_VIEWBOX}
-          preserveAspectRatio="xMidYMid meet"
-          className="h-full w-full overflow-visible"
-          aria-hidden="true"
-        >
-          <path
-            ref={swirlPathDesktopRef}
-            d={SWIRL_PATH}
-            fill="none"
-            stroke="rgba(0, 0, 0, 0.48)"
-            strokeWidth="10"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+      {/* Left edge crosshair */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 1.0, ease: [0.33, 1, 0.68, 1] }}
+        className="pointer-events-none absolute top-1/2 left-8 -translate-y-1/2 z-[3] hidden lg:block"
+        aria-hidden="true"
+      >
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="6" stroke="rgba(0,0,0,0.12)" strokeWidth="1" />
+          <circle cx="14" cy="14" r="1.5" fill="rgba(0,0,0,0.18)" />
+          <line x1="14" y1="0" x2="14" y2="8" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeLinecap="round" />
+          <line x1="14" y1="20" x2="14" y2="28" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeLinecap="round" />
+          <line x1="0" y1="14" x2="8" y2="14" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeLinecap="round" />
+          <line x1="20" y1="14" x2="28" y2="14" stroke="rgba(0,0,0,0.14)" strokeWidth="1" strokeLinecap="round" />
         </svg>
-      </div>
+      </motion.div>
 
-      <div className="relative mx-auto flex h-[100svh] w-full max-w-[1540px] flex-col px-5 pt-10 pb-8 sm:px-8 sm:pt-12 sm:pb-10 lg:px-12 lg:pt-14 lg:pb-12">
-        <div ref={topBlockRef} className="shrink-0 pb-8 sm:pb-10 lg:pb-12">
+      {/* ── Main content — padded to stay inside the border lines ── */}
+      <div className="relative mx-auto flex h-[100svh] w-full max-w-[1540px] flex-col justify-between
+        px-[calc(1.25rem+10px)] pt-10 pb-8
+        sm:px-[calc(2rem+12px)] sm:pt-12 sm:pb-10
+        md:px-[calc(3rem+14px)]
+        lg:px-[calc(3rem+14px)] lg:pt-14 lg:pb-12">
+
+        <div ref={topBlockRef} className="shrink-0 pb-6 sm:pb-8 lg:pb-10">
           <div
             ref={headingRef}
-            className="relative z-20 mb-5 text-center sm:mb-6"
+            className="relative z-20 mb-4 text-center sm:mb-5"
           >
             <div className="inline-flex items-center gap-3 font-[family-name:var(--font-museo-moderno)] text-[13px] font-bold uppercase tracking-[0.20em] text-black/60 sm:text-[15px]">
               <span className="text-black/28">—</span>
@@ -466,14 +673,15 @@ export default function CraftReveal() {
 
           <h2
             ref={watermarkRef}
-            className="pointer-events-none select-none text-center font-[family-name:var(--font-museo-moderno)] text-[clamp(3.8rem,15vw,11.5rem)] font-bold leading-none tracking-[-0.02em] text-black/[0.60]"
+            className="pointer-events-none select-none text-center font-[family-name:var(--font-museo-moderno)] text-[clamp(3.2rem,12vw,10rem)] font-bold leading-none tracking-[-0.02em] text-black/[0.60]"
           >
             {" "}
             CRAFT
           </h2>
         </div>
 
-        <div className="relative z-10 flex min-h-0 flex-1 items-start pt-2 sm:pt-4 lg:pt-6">
+        {/* Centre panel + side bullets */}
+        <div className="relative z-10 flex min-h-0 items-center pt-2 sm:pt-3 lg:pt-4">
           <div className="grid w-full items-center gap-6 lg:grid-cols-[1fr_minmax(260px,900px)_1fr] lg:gap-10">
             <div className="hidden lg:block">
               <BulletList items={leftPoints} />
@@ -486,7 +694,7 @@ export default function CraftReveal() {
 
                 <div
                   ref={frameRef}
-                  className="relative mx-auto h-[clamp(180px,30vh,420px)] overflow-hidden border border-black/[0.08] bg-black/[0.02] shadow-[0_24px_80px_rgba(0,0,0,0.10)] lg:h-[clamp(260px,46vh,560px)]"
+                  className="relative mx-auto h-[clamp(160px,28vh,400px)] overflow-hidden border border-black/[0.08] bg-black/[0.02] shadow-[0_24px_80px_rgba(0,0,0,0.10)] lg:h-[clamp(240px,42vh,520px)]"
                 >
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.82),rgba(255,255,255,0.08)_60%,transparent_82%)]" />
                   <div
@@ -538,6 +746,7 @@ export default function CraftReveal() {
           </div>
         </div>
 
+        {/* Mobile bullets — 4 items total in a 2-col grid */}
         <div
           ref={mobileBulletsRef}
           className="relative z-20 mt-3 grid grid-cols-2 gap-3 lg:hidden"
@@ -546,14 +755,15 @@ export default function CraftReveal() {
           <BulletList items={rightPoints.slice(0, 2)} align="right" />
         </div>
 
+        {/* Bottom content */}
         <div
           ref={contentRef}
-          className="relative z-20 -top-40 shrink-0 pt-3 text-center sm:-top-20 sm:pt-5 lg:-top-10 lg:pt-8"
+          className="relative z-20 shrink-0 pt-3 -top-40 lg:-top-10 text-center sm:pt-4 lg:pt-6"
         >
-          <h3 className="font-[family-name:var(--font-museo-moderno)] text-[clamp(1.5rem,3.8vw,3.2rem)] font-bold leading-[1.04] tracking-[-0.04em] text-black/88">
+          <h3 className="font-[family-name:var(--font-museo-moderno)] text-[clamp(1.2rem,3.2vw,2.8rem)] font-bold leading-[1.04] tracking-[-0.04em] text-black/88">
             Made with Craft, Poured with Passion
           </h3>
-          <p className="mx-auto mt-3 max-w-[46ch] px-2 text-[13px] leading-[1.65] text-black/50 sm:px-0 sm:text-[15px]">
+          <p className="mx-auto mt-2 max-w-[46ch] px-2 text-[12px] leading-[1.65] text-black/50 sm:px-0 sm:text-[14px] lg:mt-3 lg:text-[15px]">
             Brand, product thinking, interface polish, and engineering discipline
             - come together in one focused reveal.
           </p>

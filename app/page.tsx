@@ -6,6 +6,8 @@ import { Hero } from '@/app/components/Hero';
 import ContentSection from '@/app/components/ContentSection';
 import Preloader from '@/app/components/Preloader';
 import ScrollRibbon from '@/app/components/ScrollRibbon';
+import CTASection from '@/app/components/CTASection';
+import Footer from '@/app/components/Footer';
 
 const emptySubscribe = () => () => {};
 
@@ -34,7 +36,9 @@ export default function Home() {
       <Hero />
       <ScrollRibbon />
       <ContentSection />
-       <CraftReveal /> 
+      <CraftReveal />
+      <CTASection />
+      <Footer />
     </main>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import Lottie from "lottie-react";
 import diamondAnimation from "@/public/assets/diamond.json";
+import { NoiseBackground } from "@/app/components/ui/noise-background";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -30,9 +31,6 @@ const navLinks = [
 export function Hero() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
 
   return (
     <section className="relative w-full min-h-[100svh] sm:min-h-[100dvh] overflow-hidden bg-black">
@@ -198,10 +196,10 @@ export function Hero() {
 
       <div className="relative z-20 flex items-center pt-24 sm:pt-28 lg:pt-0 pb-10 sm:pb-0 min-h-[100svh] sm:min-h-[100dvh]">
         <div className="w-full px-6 sm:px-10 lg:px-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 xl:gap-16">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-10 xl:gap-16">
          
             <motion.div 
-              className="order-1 lg:col-start-1 lg:row-start-1"
+              className="order-1 flex flex-col items-center text-center lg:col-start-1 lg:row-start-1 lg:items-start lg:text-left"
               variants={staggerContainer}
               initial="initial"
               animate="animate"
@@ -218,7 +216,7 @@ export function Hero() {
 
               <motion.div
                 variants={fadeInUp}
-                className="mb-7 sm:mb-9 lg:mt-20 flex items-center gap-3"
+                className="mb-6 flex items-center gap-3 sm:mb-9 lg:mt-20"
               >
                 <span className="h-px w-10 sm:w-14 bg-white/35" />
                
@@ -245,7 +243,7 @@ export function Hero() {
                   font-[family-name:var(--font-museo-moderno)]
                   text-[28px] sm:text-[40px] lg:text-[40px] xl:text-[40px]
                   leading-[1.15]
-                  max-w-[22ch]
+                  max-w-[14ch] sm:max-w-[22ch]
                 "
               >
                 Rapid delivery.
@@ -255,7 +253,7 @@ export function Hero() {
 
               <motion.div 
                 variants={fadeInUp}
-                className="mt-9 sm:mt-12 max-w-[65ch]"
+                className="mt-7 max-w-[34ch] sm:mt-12 sm:max-w-[65ch]"
               >
                 <p className="text-white/65 text-base sm:text-lg lg:text-lg leading-[1.65]">
                   We ship production-ready MVPs at record speed without compromising quality.
@@ -263,189 +261,120 @@ export function Hero() {
                 </p>
               </motion.div>
 
+
             </motion.div>
 
             <motion.div
-              className="order-2 lg:col-start-2 lg:mt-15 lg:row-start-1 lg:row-span-2 flex flex-col items-center justify-center gap-7"
+              className="order-2 flex flex-col items-center justify-center gap-5 sm:gap-7 lg:col-start-2 lg:mt-15 lg:row-start-1 lg:row-span-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.33, 1, 0.68, 1], delay: 0.5 }}
             >
-              <div className="relative w-[340px] h-[227px] sm:w-[480px] sm:h-[320px] lg:w-[580px] lg:h-[387px] xl:w-[660px] xl:h-[440px]">
-
-                <svg
-                  viewBox="0 0 700 467"
-                  className="absolute inset-0 w-full h-full"
-                  fill="none"
-                >
-                  <line x1="0" y1="50" x2="700" y2="50" stroke="white" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="8 6" />
-                  <line x1="0" y1="62" x2="700" y2="62" stroke="white" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="8 6" />
-
-                  <line x1="0" y1="405" x2="700" y2="405" stroke="white" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="8 6" />
-                  <line x1="0" y1="417" x2="700" y2="417" stroke="white" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="8 6" />
-
-                  <line x1="50" y1="0" x2="50" y2="467" stroke="white" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="8 6" />
-                  <line x1="62" y1="0" x2="62" y2="467" stroke="white" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="8 6" />
-
-                  <line x1="638" y1="0" x2="638" y2="467" stroke="white" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="8 6" />
-                  <line x1="650" y1="0" x2="650" y2="467" stroke="white" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="8 6" />
-
-                  {[50, 62, 638, 650].flatMap(x =>
-                    [50, 62, 405, 417].map(y => (
-                      <circle key={`${x}-${y}`} cx={x} cy={y} r="2" fill="white" fillOpacity="0.3" />
-                    ))
-                  )}
-                </svg>
-
-                <div
-                  className="absolute overflow-hidden"
-                  style={{
-                    left:   `${(70 / 700) * 100}%`,
-                    top:    `${(70 / 467) * 100}%`,
-                    right:  `${(70 / 700) * 100}%`,
-                    bottom: `${(70 / 467) * 100}%`,
-                  }}
-                >
+              <NoiseBackground
+  containerClassName="w-full max-w-[700px] h-[214px] sm:w-[380px] sm:h-[254px] lg:w-[460px] lg:h-[307px] xl:w-[540px] xl:h-[360px] p-[4px] rounded-sm bg-black backdrop-blur-none"
+  className="h-full w-full rounded-lg"
+  gradientColors={[
+    "rgb(180, 120, 255)",
+    "rgb(100, 180, 255)",
+    "rgb(255, 180, 100)",
+  ]}
+  speed={0.06}
+>
+                <div className="relative w-full h-full rounded-none overflow-hidden bg-black">
                   <Image
                     src="/assets/bann.png"
                     alt="Hero visual"
                     fill
-                    className="object-full rounded-lg opacity-100"
+                    className="object-cover opacity-100"
                   />
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/5 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
+                  <div className="absolute inset-[28%] rounded-full bg-white/5 blur-3xl pointer-events-none" />
                 </div>
+              </NoiseBackground>
 
-                <div className="absolute inset-[28%] rounded-full bg-white/5 blur-3xl pointer-events-none" />
-              </div>
-
-              <motion.a
-                href="#contact"
+              <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.33, 1, 0.68, 1], delay: 0.9 }}
-                whileHover="hover"
-                whileTap="hover"
-                className="relative group inline-flex items-center gap-4 px-8 py-4 rounded-sm border border-dashed border-white/40 bg-white/[0.06] cursor-pointer select-none active:scale-95 transition-transform duration-150"
               >
-                {/* Traveling border lights */}
-                {/* Top edge — travels left to right */}
-                <span className="absolute top-0 left-0 h-[1px] w-[30%] pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)', filter: 'blur(0.5px)', animation: 'border-light-x 4s ease-in-out infinite' }} />
-                {/* Right edge — travels top to bottom */}
-                <span className="absolute top-0 right-0 w-[1px] h-[30%] pointer-events-none" style={{ background: 'linear-gradient(180deg, transparent, rgba(255,255,255,0.7), transparent)', filter: 'blur(0.5px)', animation: 'border-light-y 4s ease-in-out infinite' }} />
-                {/* Bottom edge — travels right to left */}
-                <span className="absolute bottom-0 right-0 h-[1px] w-[30%] pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)', filter: 'blur(0.5px)', animation: 'border-light-x-rev 4s ease-in-out infinite 2s' }} />
-                {/* Left edge — travels bottom to top */}
-                <span className="absolute bottom-0 left-0 w-[1px] h-[30%] pointer-events-none" style={{ background: 'linear-gradient(180deg, transparent, rgba(255,255,255,0.5), transparent)', filter: 'blur(0.5px)', animation: 'border-light-y-rev 4s ease-in-out infinite 2s' }} />
-
-                {/* Soft glow pulse behind the button */}
-                <span className="absolute -inset-1 rounded-sm bg-white/[0.04] blur-md animate-[pulse_3s_ease-in-out_infinite] pointer-events-none" />
-
-                {/* Shimmer sweep */}
-                <span
-                  className="absolute inset-0 pointer-events-none overflow-hidden rounded-sm"
+                <NoiseBackground
+                  containerClassName="w-full sm:w-fit p-1.5 rounded-full bg-neutral-900"
+                  gradientColors={[
+                    "rgb(180, 120, 255)",
+                    "rgb(100, 180, 255)",
+                    "rgb(255, 180, 100)",
+                  ]}
                 >
-                  <span
-                    className="absolute inset-0 -translate-x-full animate-[shimmer_3.5s_ease-in-out_infinite_1.5s]"
-                    style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%)" }}
-                  />
-                </span>
-
-                <motion.span
-                  variants={{ hover: { scaleX: 1 } }}
-                  initial={{ scaleX: 0 }}
-                  transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-                  style={{ originX: 0 }}
-                  className="absolute inset-0 bg-white/[0.06] pointer-events-none"
-                />
-
-                {["-top-px -left-px", "-top-px -right-px", "-bottom-px -left-px", "-bottom-px -right-px"].map((pos, i) => (
-                  <motion.span
-                    key={i}
-                    variants={{ hover: { opacity: 1, scale: 1.4 } }}
-                    initial={{ opacity: 0.55, scale: 1 }}
-                    transition={{ duration: 0.25 }}
-                    className={`absolute w-1 h-1 rounded-full bg-white/70 ${pos}`}
-                  />
-                ))}
-
-                <span className="relative text-sm font-semibold tracking-widest uppercase text-white/85 group-hover:text-white transition-colors duration-300">
-                  Book a Strategy Call
-                </span>
-
-                <motion.span
-                  variants={{ hover: { x: 5, opacity: 1 } }}
-                  initial={{ x: 0, opacity: 0.7 }}
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.8, ease: "easeInOut", repeat: Infinity, repeatDelay: 2 }}
-                  className="relative text-white text-base leading-none"
-                >
-                  →
-                </motion.span>
-              </motion.a>
+                  <a
+                    href="#contact"
+                    className="flex min-w-[220px] items-center justify-center gap-2 cursor-pointer rounded-full bg-gradient-to-r from-black via-neutral-950 to-neutral-900 px-5 py-3 text-[11px] font-semibold tracking-[0.24em] uppercase text-white/85 shadow-[0px_1px_0px_0px_rgba(255,255,255,0.08)_inset] transition-all duration-150 hover:text-white active:scale-95 sm:min-w-0 sm:px-6 sm:py-3 sm:text-sm sm:tracking-widest"
+                  >
+                    Book a Strategy Call
+                    <span className="text-white/70 text-sm leading-none">&rarr;</span>
+                  </a>
+                </NoiseBackground>
+              </motion.div>
             </motion.div>
 
             <motion.div
-              className="order-3 lg:col-start-1 lg:row-start-2 lg:self-start"
+              className="order-3 mb-4 lg:col-start-1 lg:row-start-2 lg:self-start lg:mb-8"
               variants={fadeInUp}
               initial="initial"
               animate="animate"
             >
-              <motion.div
-                variants={fadeInUp}
-                className="
-                  pt-8 sm:pt-10 pb-8 sm:pb-10 px-3 sm:px-8 mb-10 -mx-4 sm:-mx-6
-                  border-2 border-dotted border-white/15 rounded-lg
-                  grid grid-cols-3 gap-0
-                  relative
-                "
+              <NoiseBackground
+                containerClassName="w-full p-[2px] rounded-lg bg-black"
+                gradientColors={[
+                  "rgb(180, 120, 255)",
+                  "rgb(100, 180, 255)",
+                  "rgb(255, 180, 100)",
+                ]}
+                speed={0.05}
               >
                 <motion.div
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="group cursor-default px-3 sm:px-4 py-0"
+                  variants={fadeInUp}
+                  className="grid gap-0 rounded-[5px] bg-black/90 px-5 py-5 sm:grid-cols-3 sm:px-6"
                 >
-                  <p className="text-white/40 text-[9px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-2 sm:mb-4">
-                    RAPID DELIVERY
-                  </p>
-                  <p className="text-white/95 text-[11px] sm:text-sm font-medium leading-[1.4] sm:leading-[1.5] transition-colors duration-300 group-hover:text-white">
-                    Full SaaS products shipped at unmatched speed, from concept to production.
-                  </p>
-                </motion.div>
+                  <motion.div
+                    whileHover={{ x: 3 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="group cursor-default py-3 sm:py-0 sm:pr-6"
+                  >
+                    <p className="mb-1.5 text-[9px] tracking-[0.18em] text-white/35 uppercase sm:text-[8px]">
+                      RAPID DELIVERY
+                    </p>
+                    <p className="text-[13px] font-medium leading-[1.5] text-white/85 transition-colors duration-300 group-hover:text-white sm:text-[11px]">
+                      Full SaaS products shipped at unmatched speed.
+                    </p>
+                  </motion.div>
 
-                <motion.div
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="
-                    group cursor-default
-                    px-3 sm:px-4 py-0
-                    border-l-2 border-dotted border-white/15
-                  "
-                >
-                  <p className="text-white/40 text-[9px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-2 sm:mb-4">
-                    INDUSTRY GRADE
-                  </p>
-                  <p className="text-white/95 text-[11px] sm:text-sm font-medium leading-[1.4] sm:leading-[1.5] transition-colors duration-300 group-hover:text-white">
-                    Enterprise-quality engineering that scales with your business.
-                  </p>
-                </motion.div>
+                  <motion.div
+                    whileHover={{ x: 3 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="group cursor-default border-t border-white/[0.08] py-3 sm:border-l sm:border-t-0 sm:px-6 sm:py-0"
+                  >
+                    <p className="mb-1.5 text-[9px] tracking-[0.18em] text-white/35 uppercase sm:text-[8px]">
+                      INDUSTRY GRADE
+                    </p>
+                    <p className="text-[13px] font-medium leading-[1.5] text-white/85 transition-colors duration-300 group-hover:text-white sm:text-[11px]">
+                      Enterprise-quality engineering that scales.
+                    </p>
+                  </motion.div>
 
-                <motion.div
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="
-                    group cursor-default 
-                    px-3 sm:px-4 py-0
-                    border-l-2 border-dotted border-white/15 
-                  "
-                >
-                  <p className="text-white/40 text-[9px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-2 sm:mb-4">
-                    BEST PRICES
-                  </p>
-                  <p className="text-white/95 text-[11px] sm:text-sm font-medium leading-[1.4] sm:leading-[1.5] transition-colors duration-300 group-hover:text-white">
-                    Premium software at prices that make sense for every stage.
-                  </p>
+                  <motion.div
+                    whileHover={{ x: 3 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="group cursor-default border-t border-white/[0.08] py-3 sm:border-l sm:border-t-0 sm:pl-6 sm:py-0"
+                  >
+                    <p className="mb-1.5 text-[9px] tracking-[0.18em] text-white/35 uppercase sm:text-[8px]">
+                      BEST PRICES
+                    </p>
+                    <p className="text-[13px] font-medium leading-[1.5] text-white/85 transition-colors duration-300 group-hover:text-white sm:text-[11px]">
+                      Premium software at prices that make sense.
+                    </p>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+              </NoiseBackground>
             </motion.div>
 
           </div>
