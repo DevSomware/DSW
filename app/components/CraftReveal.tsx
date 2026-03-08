@@ -245,7 +245,8 @@ function CornerBrackets() {
         <motion.svg
           key={i}
           initial={{ opacity: 0, scale: 0.6 }}
-          animate={{ opacity: 1, scale: 1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.3 + i * 0.12, ease: [0.33, 1, 0.68, 1] }}
           width="22"
           height="22"
@@ -275,7 +276,8 @@ function RuledLines() {
         <motion.div
           key={pct}
           initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
           transition={{
             duration: 1.4,
             delay: 0.1 + pct * 0.007,
@@ -566,7 +568,6 @@ export default function CraftReveal() {
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.70),transparent_55%),linear-gradient(180deg,rgba(255,255,255,0.30),transparent_35%,rgba(0,0,0,0.03))]" />
 
-      {/* Border frame — overflow hidden so nothing escapes */}
       <div
         ref={borderRef}
         className="absolute inset-x-1.5 -top-2 bottom-0 pointer-events-none z-10 overflow-hidden sm:inset-x-2 md:inset-x-3"
@@ -584,16 +585,17 @@ export default function CraftReveal() {
 
         <motion.div
           initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.5 }}
           className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       </div>
 
-      {/* Coordinate label — top left */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.6 }}
         className="pointer-events-none absolute top-6 left-6 z-20 hidden sm:block"
         aria-hidden="true"
@@ -603,10 +605,10 @@ export default function CraftReveal() {
         </span>
       </motion.div>
 
-      {/* Coordinate label — bottom right */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.7 }}
         className="pointer-events-none absolute bottom-6 right-6 z-20 hidden sm:block"
         aria-hidden="true"
@@ -616,10 +618,10 @@ export default function CraftReveal() {
         </span>
       </motion.div>
 
-      {/* Cross-hair center mark */}
       <motion.div
         initial={{ opacity: 0, scale: 0.7 }}
-        animate={{ opacity: 1, scale: 1 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.9, ease: [0.33, 1, 0.68, 1] }}
         className="pointer-events-none absolute top-1/2 right-8 -translate-y-1/2 z-[3] hidden lg:block"
         aria-hidden="true"
@@ -637,7 +639,8 @@ export default function CraftReveal() {
       {/* Left edge crosshair */}
       <motion.div
         initial={{ opacity: 0, scale: 0.7 }}
-        animate={{ opacity: 1, scale: 1 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 1.0, ease: [0.33, 1, 0.68, 1] }}
         className="pointer-events-none absolute top-1/2 left-8 -translate-y-1/2 z-[3] hidden lg:block"
         aria-hidden="true"
