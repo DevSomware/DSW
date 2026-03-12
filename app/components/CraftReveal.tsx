@@ -188,9 +188,6 @@ const ScanLine = memo(() => {
 });
 ScanLine.displayName = "ScanLine";
 
-/* ═══════════════════════════════════════════════════════════════════════
-   SECTION LABEL — monospace with scramble
-   ═══════════════════════════════════════════════════════════════════════ */
 
 const SectionLabel = memo(({ text }: { text: string }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -248,11 +245,6 @@ const SectionLabel = memo(({ text }: { text: string }) => {
 });
 SectionLabel.displayName = "SectionLabel";
 
-/* ═══════════════════════════════════════════════════════════════════════
-   PROJECT CARD — scroll-triggered reveal with image + details
-   Card appears and expands when the project row enters viewport
-   ═══════════════════════════════════════════════════════════════════════ */
-
 const ProjectCard = memo(
   ({
     project,
@@ -270,7 +262,6 @@ const ProjectCard = memo(
     const glowRef = useRef<HTMLDivElement>(null);
     const numberRef = useRef<HTMLSpanElement>(null);
 
-    // Main scroll-triggered entrance
     useEffect(() => {
       if (!rowRef.current) return;
       const ctx = gsap.context(() => {
@@ -818,10 +809,6 @@ const TestimonialCard = memo(
 );
 TestimonialCard.displayName = "TestimonialCard";
 
-/* ═══════════════════════════════════════════════════════════════════════
-   DIVIDER
-   ═══════════════════════════════════════════════════════════════════════ */
-
 const SectionDivider = memo(() => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -879,16 +866,11 @@ const SectionDivider = memo(() => {
 });
 SectionDivider.displayName = "SectionDivider";
 
-/* ═══════════════════════════════════════════════════════════════════════
-   MAIN — CraftReveal
-   ═══════════════════════════════════════════════════════════════════════ */
-
 export default function CraftReveal() {
   const sectionRef = useRef<HTMLElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-  // Auto-cycle testimonials
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
@@ -896,7 +878,6 @@ export default function CraftReveal() {
     return () => clearInterval(interval);
   }, []);
 
-  // Counter animation
   useEffect(() => {
     if (!counterRef.current) return;
     const obj = { val: 0 };
@@ -977,16 +958,13 @@ export default function CraftReveal() {
           </div>
         </div>
 
-        {/* Project cards — each reveals on scroll */}
         {PROJECTS.map((project, i) => (
           <ProjectCard key={project.id} project={project} index={i} />
         ))}
       </div>
 
-      {/* ═══════════════ DIVIDER ═══════════════ */}
       <SectionDivider />
 
-      {/* ═══════════════ TESTIMONIALS ═══════════════ */}
       <div className="relative z-10 w-full px-5 sm:px-8 lg:px-16 xl:px-24 pb-16 sm:pb-20 lg:pb-28">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {TESTIMONIALS.map((t, i) => (
