@@ -656,9 +656,7 @@ const TestimonialCard = memo(
       <div
         ref={ref}
         onClick={onClick}
-        className={`relative cursor-pointer transition-all duration-500 group ${
-          isActive ? "lg:col-span-2" : "lg:col-span-1"
-        }`}
+        className="relative cursor-pointer transition-all duration-500 group lg:col-span-1"
         style={{ opacity: 0 }}
       >
         <div
@@ -966,7 +964,7 @@ export default function CraftReveal() {
       <SectionDivider />
 
       <div className="relative z-10 w-full px-5 sm:px-8 lg:px-16 xl:px-24 pb-16 sm:pb-20 lg:pb-28">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {TESTIMONIALS.map((t, i) => (
             <TestimonialCard
               key={i}

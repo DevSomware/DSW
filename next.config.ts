@@ -5,11 +5,15 @@ const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
+
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
     qualities: [100, 75],
   },
+  allowedDevOrigins: [
+    "https://figma.com",
+ 
+  ],
 };
 
 export default bundleAnalyzer(nextConfig);

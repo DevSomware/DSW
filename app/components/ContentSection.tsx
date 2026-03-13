@@ -1,5 +1,4 @@
 ﻿"use client";
-
 import React, {
   useEffect,
   useId,
@@ -8,7 +7,6 @@ import React, {
   useCallback,
   useMemo,
   memo,
-  lazy,
   Suspense,
 } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
@@ -22,14 +20,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrambleTextPlugin, ScrollTrigger);
 
-// ── Lazy-load Lottie + animation data (biggest perf win) ──────────────
-// This prevents ~500KB+ of JSON from being parsed on initial load.
 const LottiePlayer = dynamic(() => import("lottie-react"), {
   ssr: false,
   loading: () => <div style={{ width: "100%", height: "100%" }} />,
 });
 
-// ── Static style objects (avoids re-creation each render) ─────────────
 const CORNER_POSITIONS: React.CSSProperties[] = [
   { top: -5, left: -7 },
   { top: -5, right: -7 },
@@ -104,16 +99,6 @@ const TILE_IMAGE_OVERLAY_STYLE: React.CSSProperties = {
   pointerEvents: "none",
 };
 
-const TILE_IMAGE_STYLE: React.CSSProperties = {
-  width: "100%",
-  height: "100%",
-  objectFit: "cover",
-  objectPosition: "center",
-  display: "block",
-  filter: "saturate(0.8) brightness(0.92)",
-};
-
-// ── Shared scramble config ────────────────────────────────────────────
 const SCRAMBLE_INITIAL = {
   text: "Our Services",
   chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
@@ -135,7 +120,6 @@ const SCRAMBLE_TOUCH = {
   speed: 0.9,
 };
 
-// ── Stats data ────────────────────────────────────────────────────────
 const STATS = [
   { label: "Projects shipped", note: "MVPs to enterprise" },
   { label: "Client retention", note: "All clients renewed" },
@@ -145,14 +129,12 @@ const STATS = [
 const STAT_TARGETS = [50, 100, 4];
 const STAT_SUFFIXES = ["+", "%", "wk"];
 
-// ── Steps data ────────────────────────────────────────────────────────
 const STEPS = [
   { x: 30, num: "01", label: "DISCOVER", sub: "Scope & plan" },
   { x: 150, num: "02", label: "BUILD", sub: "Sprint delivery" },
   { x: 270, num: "03", label: "LAUNCH", sub: "Ship & iterate" },
 ] as const;
 
-// ── Engagement models data ────────────────────────────────────────────
 const ENGAGEMENT_MODELS = [
   {
     tag: "01",
@@ -174,7 +156,6 @@ const ENGAGEMENT_MODELS = [
   },
 ] as const;
 
-// ── Deliverables items ────────────────────────────────────────────────
 const DELIVERABLE_ITEMS = [
   "Full source code ownership & handoff",
   "CI/CD pipeline + cloud deployment",
@@ -182,7 +163,6 @@ const DELIVERABLE_ITEMS = [
   "Documentation & onboarding guide",
 ] as const;
 
-// ── Engagement icons (static, no re-creation) ─────────────────────────
 const ENGAGEMENT_ICONS = [
   <svg key="icon-0" width="20" height="20" viewBox="0 0 32 32" fill="none">
     <rect
@@ -247,7 +227,6 @@ const ENGAGEMENT_ICONS = [
   </svg>,
 ];
 
-// ── Border line components (unchanged visually, memoized) ─────────────
 type HProps = {
   pos: "top" | "bottom";
   offset: number;
@@ -301,7 +280,6 @@ const V = memo(({ pos, offset, overhang, opacity, delay }: VProps) => (
 ));
 V.displayName = "V";
 
-// ── ServicesHeading ───────────────────────────────────────────────────
 const ServicesHeading = memo(() => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
@@ -412,7 +390,6 @@ const ServicesHeading = memo(() => {
 });
 ServicesHeading.displayName = "ServicesHeading";
 
-// ── BentoCard ─────────────────────────────────────────────────────────
 const BentoCard = memo(
   ({
     children,
@@ -434,7 +411,8 @@ const BentoCard = memo(
         duration: 0.28,
         ease: "power2.out",
       });
-    }, [ref]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleLeave = useCallback(() => {
       if (!ref.current) return;
@@ -444,7 +422,8 @@ const BentoCard = memo(
         duration: 0.35,
         ease: "power2.out",
       });
-    }, [ref]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
       <div
@@ -461,7 +440,6 @@ const BentoCard = memo(
 );
 BentoCard.displayName = "BentoCard";
 
-// ── Label ─────────────────────────────────────────────────────────────
 const Label = memo(({ children }: { children: React.ReactNode }) => (
   <span className="text-[11px] sm:text-xs tracking-[0.16em] uppercase text-black/60 font-bold block">
     {children}
@@ -469,7 +447,6 @@ const Label = memo(({ children }: { children: React.ReactNode }) => (
 ));
 Label.displayName = "Label";
 
-// ── Lazy Lottie wrapper (loads animation data on demand) ──────────────
 const LazyLottieAnim = memo(({ animName }: { animName: string }) => {
   const [animData, setAnimData] = useState<object | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -484,7 +461,6 @@ const LazyLottieAnim = memo(({ animName }: { animName: string }) => {
           loadedRef.current = true;
           observer.disconnect();
 
-          // Dynamic import of animation JSON — only when visible
           const importMap: Record<string, () => Promise<{ default: object }>> =
             {
               developer: () =>
@@ -501,7 +477,7 @@ const LazyLottieAnim = memo(({ animName }: { animName: string }) => {
           }
         }
       },
-      { rootMargin: "200px" } // start loading slightly before visible
+      { rootMargin: "200px" }
     );
 
     observer.observe(containerRef.current);
@@ -529,7 +505,6 @@ const LazyLottieAnim = memo(({ animName }: { animName: string }) => {
 });
 LazyLottieAnim.displayName = "LazyLottieAnim";
 
-// ── Solar SVG (static, memoized) ──────────────────────────────────────
 const SolarSVG = memo(() => (
   <svg
     viewBox="0 0 512 512"
@@ -559,7 +534,6 @@ const SolarSVG = memo(() => (
 ));
 SolarSVG.displayName = "SolarSVG";
 
-// ── ServiceAnim (lazy-loaded per index) ───────────────────────────────
 const ANIM_NAMES = ["developer", "futuretech", "cloud", "uiux"];
 
 const ServiceAnim = memo(({ index }: { index: number }) => {
@@ -570,7 +544,6 @@ const ServiceAnim = memo(({ index }: { index: number }) => {
 });
 ServiceAnim.displayName = "ServiceAnim";
 
-// ── HeadlineCard ──────────────────────────────────────────────────────
 const HeadlineCard = memo(
   ({ innerRef }: { innerRef: React.RefObject<HTMLDivElement | null> }) => {
     const numRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -645,7 +618,6 @@ const HeadlineCard = memo(
 );
 HeadlineCard.displayName = "HeadlineCard";
 
-// ── HeadlineSVGBackground (extracted, memoized — avoids re-render) ────
 const HeadlineSVGBackground = memo(() => (
   <svg
     className="absolute inset-0 w-full h-full pointer-events-none"
@@ -725,7 +697,6 @@ const HeadlineSVGBackground = memo(() => (
 ));
 HeadlineSVGBackground.displayName = "HeadlineSVGBackground";
 
-// ── HowWeWorkCard ─────────────────────────────────────────────────────
 const HowWeWorkCard = memo(
   ({ innerRef }: { innerRef: React.RefObject<HTMLDivElement | null> }) => {
     const lineRef = useRef<SVGLineElement>(null);
@@ -763,7 +734,7 @@ const HowWeWorkCard = memo(
         innerRef={innerRef}
         className="sm:col-span-2 lg:col-span-2 p-2.5 sm:p-3 flex flex-col"
       >
-        <div className="flex items-center gap-2 font-[family-name:var(--font-museo-moderno)] font-bold uppercase tracking-[0.14em] text-[15px] sm:text-[17px] leading-none mb-1 flex justify-center items-center">
+        <div className="flex items-center justify-center gap-2 font-[family-name:var(--font-museo-moderno)] font-bold uppercase tracking-[0.14em] text-[15px] sm:text-[17px] leading-none mb-1">
           <span className="text-black/22 text-[0.88em]">{"{"}</span>
           <span className="text-black/78">How We Work</span>
           <span className="text-black/22 text-[0.88em]">{"}"}</span>
@@ -897,14 +868,13 @@ const HowWeWorkCard = memo(
 );
 HowWeWorkCard.displayName = "HowWeWorkCard";
 
-// ── DeliveryCard ──────────────────────────────────────────────────────
 const DeliveryCard = memo(
   ({ innerRef }: { innerRef: React.RefObject<HTMLDivElement | null> }) => (
     <BentoCard
       innerRef={innerRef}
       className="sm:col-span-2 lg:col-span-2 p-2.5 sm:p-3 flex flex-col"
     >
-      <div className="flex items-center gap-2 font-[family-name:var(--font-museo-moderno)] font-bold uppercase tracking-[0.14em] text-[15px] sm:text-[17px] leading-none mb-1 flex justify-center items-center">
+      <div className="flex items-center justify-center gap-2 font-[family-name:var(--font-museo-moderno)] font-bold uppercase tracking-[0.14em] text-[15px] sm:text-[17px] leading-none mb-1">
         <span className="text-black/22 text-[0.88em]">{"{"}</span>
         <span className="text-black/78">Delivery Timeline</span>
         <span className="text-black/22 text-[0.88em]">{"}"}</span>
@@ -925,7 +895,6 @@ const DeliveryCard = memo(
 );
 DeliveryCard.displayName = "DeliveryCard";
 
-// ── EngagementCard ────────────────────────────────────────────────────
 const EngagementCard = memo(
   ({ innerRef }: { innerRef: React.RefObject<HTMLDivElement | null> }) => {
     const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -1003,7 +972,6 @@ const EngagementCard = memo(
 );
 EngagementCard.displayName = "EngagementCard";
 
-// ── DeliverablesCard ──────────────────────────────────────────────────
 const DeliverablesBackgroundSVG = memo(() => (
   <svg
     className="absolute inset-0 w-full h-full pointer-events-none"
@@ -1120,7 +1088,6 @@ const DeliverablesCard = memo(
 );
 DeliverablesCard.displayName = "DeliverablesCard";
 
-// ── ServiceTile ───────────────────────────────────────────────────────
 interface ServiceTileProps {
   service: (typeof services)[number];
   layoutId: string;
@@ -1143,7 +1110,6 @@ const ServiceTile = memo(
   }: ServiceTileProps) => {
     const cardRef = useRef<HTMLLIElement>(null);
     const shimmerRef = useRef<HTMLSpanElement>(null);
-    // Throttle mousemove with RAF for smooth 3D tilt
     const rafRef = useRef<number>(0);
 
     const onMouseMove = useCallback(
@@ -1202,7 +1168,6 @@ const ServiceTile = memo(
       });
     }, []);
 
-    // Cleanup RAF on unmount
     useEffect(() => {
       return () => cancelAnimationFrame(rafRef.current);
     }, []);
@@ -1305,13 +1270,13 @@ const ServiceTile = memo(
               }}
             >
               <div aria-hidden="true" style={TILE_IMAGE_OVERLAY_STYLE} />
-              <img
-                width={40}
-                height={40}
+              <Image
                 src={service.src}
                 alt={service.title}
-                loading="lazy"
-                style={TILE_IMAGE_STYLE}
+                fill
+                sizes="40px"
+                className="object-cover object-center"
+                style={{ filter: "saturate(0.8) brightness(0.92)" }}
               />
             </div>
           </div>
@@ -1345,7 +1310,6 @@ const ServiceTile = memo(
 );
 ServiceTile.displayName = "ServiceTile";
 
-// ── CloseIcon ─────────────────────────────────────────────────────────
 const CloseIcon = memo(() => (
   <motion.svg
     initial={{ opacity: 0 }}
@@ -1369,12 +1333,11 @@ const CloseIcon = memo(() => (
 ));
 CloseIcon.displayName = "CloseIcon";
 
-// ── Services data ─────────────────────────────────────────────────────
 const services = [
   {
     title: "{ Full-Stack Development }",
     description: "Modern Web Applications",
-    src: "./banner/fbanner.png",
+    src: "/banner/fbanner.png",
     ctaText: "Explore",
     ctaLink: "#services",
     content: () => (
@@ -1394,7 +1357,7 @@ const services = [
   {
     title: "{ Product Prototyping }",
     description: "From Idea to Working Product",
-    src: "./banner/pptye.png",
+    src: "/banner/pptye.png",
     ctaText: "Explore",
     ctaLink: "#services",
     content: () => (
@@ -1412,7 +1375,7 @@ const services = [
   {
     title: "{ Cloud & Deployment }",
     description: "Reliable Infrastructure",
-    src: "./banner/cloud.png",
+    src: "/banner/cloud.png",
     ctaText: "Explore",
     ctaLink: "#services",
     content: () => (
@@ -1430,7 +1393,7 @@ const services = [
   {
     title: "{ UI / UX Design }",
     description: "User-Focused Interfaces",
-    src: "./banner/ui.png",
+    src: "/banner/ui.png",
     ctaText: "Explore",
     ctaLink: "#services",
     content: () => (
@@ -1448,7 +1411,7 @@ const services = [
   {
     title: "{ API Development }",
     description: "Reliable Integrations",
-    src: "./banner/api.png",
+    src: "/banner/api.png",
     ctaText: "Explore",
     ctaLink: "#services",
     content: () => (
@@ -1466,7 +1429,6 @@ const services = [
   },
 ];
 
-// ── ContentSection (main) ─────────────────────────────────────────────
 const ContentSection = () => {
   const borderRef = useRef(null);
   const inView = useInView(borderRef, { once: true, margin: "-80px" });
@@ -1475,7 +1437,6 @@ const ContentSection = () => {
   const modalDisplaceRef = useRef<SVGFEDisplacementMapElement>(null);
   const id = useId();
 
-  // Use a single ref object instead of multiple useRefs
   const bentoPanelRef = useMemo(
     () => ({
       headline: { current: null } as React.RefObject<HTMLDivElement | null>,
@@ -1523,7 +1484,6 @@ const ContentSection = () => {
 
   useOutsideClick(cardRef, () => setActive(null));
 
-  // Memoize modal mouse handlers
   const onModalImageEnter = useCallback(() => {
     if (modalDisplaceRef.current)
       gsap.to(modalDisplaceRef.current, {
@@ -1688,9 +1648,9 @@ const ContentSection = () => {
                   </defs>
                 </svg>
                 <div style={{ margin: "-12px", filter: "url(#modal-water)" }}>
-                  <img
-                    width={500}
-                    height={280}
+                  <Image
+                    width={524}
+                    height={200}
                     src={active.src}
                     alt={active.title}
                     style={{
