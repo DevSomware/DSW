@@ -31,13 +31,17 @@ function withProtocol(value: string): string {
 }
 
 export function getBaseUrl(): string {
+  const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_BASE_URL;
+
+  // In production, always prefer the canonical domain for stable SEO metadata.
   const rawUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    process.env.NEXT_PUBLIC_VERCEL_URL ||
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-    process.env.VERCEL_URL ||
-    FALLBACK_SITE_URL;
+    configuredUrl ||
+    (process.env.NODE_ENV === "production"
+      ? FALLBACK_SITE_URL
+      : process.env.NEXT_PUBLIC_VERCEL_URL ||
+        process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+        process.env.VERCEL_URL ||
+        FALLBACK_SITE_URL);
 
   try {
     const parsed = new URL(withProtocol(rawUrl));
