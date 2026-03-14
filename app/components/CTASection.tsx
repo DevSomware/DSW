@@ -387,16 +387,29 @@ export default function CTASection() {
                 <div ref={ctasRef} className="flex flex-col items-start lg:items-end gap-5 shrink-0" style={{ opacity: 0 }}>
                   <MagneticButton href="/contact">Start a Project</MagneticButton>
 
-                  <Link
-                    href="/work"
-                    className="group inline-flex items-center gap-2 text-white/30 text-[10px] font-medium tracking-[0.18em] uppercase hover:text-white/60 transition-colors duration-300"
-                  >
-                    <span>View Our Work</span>
-                    <svg width="10" height="10" viewBox="0 0 14 14" fill="none"
-                      className="group-hover:-translate-y-0.5 transition-transform duration-300">
-                      <path d="M7 13V1M1 7l6-6 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
+                  <div className="flex items-center gap-5">
+                    <Link
+                      href="/work"
+                      className="group inline-flex items-center gap-2 text-white/30 text-[10px] font-medium tracking-[0.18em] uppercase hover:text-white/60 transition-colors duration-300"
+                    >
+                      <span>View Our Work</span>
+                      <svg width="10" height="10" viewBox="0 0 14 14" fill="none"
+                        className="group-hover:-translate-y-0.5 transition-transform duration-300">
+                        <path d="M7 13V1M1 7l6-6 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                    <span className="w-px h-3 bg-white/10" />
+                    <Link
+                      href="/product"
+                      className="group inline-flex items-center gap-2 text-white/30 text-[10px] font-medium tracking-[0.18em] uppercase hover:text-white/60 transition-colors duration-300"
+                    >
+                      <span>All Products</span>
+                      <svg width="10" height="10" viewBox="0 0 14 14" fill="none"
+                        className="group-hover:translate-x-0.5 transition-transform duration-300">
+                        <path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                  </div>
 
                   <div className="flex items-center gap-2 mt-1">
                     <span className="relative flex h-1.5 w-1.5">
