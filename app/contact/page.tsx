@@ -8,9 +8,9 @@ import { useOutsideClick } from "@/hooks/use-outside-click";
 
 const REVENUE_OPTIONS = [
   "Pre-revenue",
-  "$1K – $10K / mo",
-  "$10K – $50K / mo",
-  "$50K – $200K / mo",
+  "$1K - $10K / mo",
+  "$10K - $50K / mo",
+  "$50K - $200K / mo",
   "$200K+ / mo",
 ];
 
@@ -183,7 +183,6 @@ export default function ContactPage() {
               a tailored proposal, timeline, and pricing.
             </p>
 
-            {/* Stats */}
             <div className="flex flex-wrap gap-3 mb-10">
               {[
                 ["50+", "Projects Shipped"],
@@ -299,8 +298,6 @@ export default function ContactPage() {
                   />
                 </Field>
               </div>
-
-              {/* Row 2 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Company Name" required>
                   <input
@@ -322,8 +319,6 @@ export default function ContactPage() {
                   />
                 </Field>
               </div>
-
-              {/* Row 3 */}
               <Field label="Your Role / Title" required>
                 <input
                   name="role"
@@ -346,7 +341,6 @@ export default function ContactPage() {
                 />
               </Field>
 
-              {/* Row 5 */}
               <Field label="Anything we should know?">
                 <textarea
                   name="message"
@@ -374,7 +368,6 @@ export default function ContactPage() {
                 {status === "loading" ? "Sending…" : "Talk to an Expert →"}
               </button>
 
-              {/* Startup cross-link */}
               <p
                 className="text-center text-sm text-white/30"
                 style={{ fontFamily: "var(--font-geist-sans)" }}
@@ -463,7 +456,6 @@ function CustomSelect({
           ))}
         </div>
       )}
-      {/* Hidden native input for form validity */}
       <input type="hidden" name={name} value={value} required />
     </div>
   );

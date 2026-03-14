@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Lottie from "lottie-react";
 import manAnimation from "@/public/assets/man.json";
 import gsap from "gsap";
@@ -529,8 +530,8 @@ export default function CTASection() {
                   Start a Project
                 </MagneticButton>
 
-                <a
-                  href="#craft"
+                <Link
+                  href="/work"
                   className="group inline-flex items-center gap-2 text-white/30 text-[10px] font-medium tracking-[0.16em] uppercase hover:text-white/60 transition-colors duration-300"
                 >
                   <span>View Our Work</span>
@@ -539,7 +540,7 @@ export default function CTASection() {
                   >
                     <path d="M7 13V1M1 7l6-6 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </a>
+                </Link>
               </div>
 
             </div>
