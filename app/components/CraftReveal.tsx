@@ -2,6 +2,7 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
@@ -12,42 +13,46 @@ gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 const PROJECTS = [
   {
     id: "01",
-    name: "Project Name",
-    tagline: "Brief one-line tagline for this project",
+    name: "Artistic",
+    tagline: "A global platform connecting artists, events, and creative services.",
     description:
-      "A short paragraph describing what this project does, the problem it solves, and the impact it delivered. Replace with real details.",
-    image: "/assets/bg.png", 
-    tags: ["Tech 1", "Tech 2", "Tech 3", "Tech 4"],
+      "Artistic is a digital platform that connects artists with event organizers. It allows users to discover performers, book talent, and access equipment packages for events through a single platform.",
+    image: "/projects/artistic.png", 
+    link: "https://artistic.global",
+    tags: ["Next JS","Nest JS", "TailwindCSS", "Node JS", "MongoDB"],
     accent: "#8b5cf6",
   },
   {
     id: "02",
-    name: "Project Name",
-    tagline: "Brief one-line tagline for this project",
+    name: "PG Master",
+    tagline: "Smart management software for PGs and hostels",
     description:
-      "A short paragraph describing what this project does, the problem it solves, and the impact it delivered. Replace with real details.",
-    image: "/assets/bg.png",
-    tags: ["Tech 1", "Tech 2", "Tech 3"],
+      "PG Master is a property management platform designed for PG and hostel owners to manage tenants, rent collection, room allocation, and complaints from a single dashboard.",
+    image: "/projects/PGMaster.png",
+    link: "https://pgmaster.in",
+    tags: ["React Native", "Nest JS", "NextJS","PostgreSQL", "Firebase"],
     accent: "#f59e0b",
   },
   {
     id: "03",
-    name: "Project Name",
-    tagline: "Brief one-line tagline for this project",
+    name: "Jogaad India",
+    tagline: "A multi-service platform for on-demand doorstep services",
     description:
-      "A short paragraph describing what this project does, the problem it solves, and the impact it delivered. Replace with real details.",
-    image: "/assets/bg.png",
-    tags: ["Tech 1", "Tech 2", "Tech 3", "Tech 4"],
+      "Jogaad India is an on-demand service platform that connects customers with verified professionals for home services, manpower supply, medical assistance, and event management across Odisha.",
+    image: "/projects/JogaadIndia.png",
+    link: "https://jogaadindia.com",
+    tags: ["NextJS", "MongoDB"],
     accent: "#10b981",
   },
   {
     id: "04",
-    name: "Project Name",
-    tagline: "Brief one-line tagline for this project",
+    name: "Saveful",
+    tagline: "AI-powered platform to reduce food waste and plan smarter meals",
     description:
-      "A short paragraph describing what this project does, the problem it solves, and the impact it delivered. Replace with real details.",
-    image: "/assets/bg.png",
-    tags: ["Tech 1", "Tech 2", "Tech 3"],
+      "Saveful is a food-tech platform that helps users cook meals using ingredients already available in their kitchen. It provides AI-powered recipe suggestions, meal planning, nutrition insights, and smart shopping lists to reduce food waste and save money.",
+    image: "/projects/Saveful.png",
+    link: "https://www.saveful.com",
+    tags: ["AI", "React Native", "NestJs", "MongoDB"],
     accent: "#3b82f6",
   },
 ];
@@ -56,13 +61,13 @@ const PROJECTS = [
 const TESTIMONIALS = [
   {
     text: "The team moved fast without breaking quality. We shipped our first release in five weeks and user activation improved immediately.",
-    author: "Aarav Mehta",
-    title: "Founder, Finchboard",
+    author: "Hassan K. Jomah",
+    title: "Artistic global",
   },
   {
     text: "Clear communication, clean architecture, and no surprises in delivery. Exactly the partner we needed for a high-stakes launch.",
-    author: "Nina Rodriguez",
-    title: "Product Lead, Cartly",
+    author: "Soumya Senapati",
+    title: "PG Master",
   },
   {
     text: "Performance improved across the board. Our dashboard load times dropped from 4.2s to under 1.5s after the rebuild.",
@@ -78,21 +83,6 @@ const TESTIMONIALS = [
     text: "We handed over a messy legacy stack and got back a stable platform with better observability and predictable deployments.",
     author: "Omar Hassan",
     title: "Engineering Head, RideNest",
-  },
-  {
-    text: "From kickoff to handoff, execution was disciplined and transparent. Every sprint had visible impact and measurable outcomes.",
-    author: "Emily Carter",
-    title: "COO, Northpeak Labs",
-  },
-  {
-    text: "Their QA and release process was excellent. We cut production incidents by more than half in the first quarter. random text to fill space.",
-    author: "Luca Moretti",
-    title: "VP Engineering, PayOrbit",
-  },
-  {
-    text: "Design and development stayed in sync the whole time. What we approved in Figma is exactly what we launched.",
-    author: "Priya Nair",
-    title: "Design Director, Modemint",
   },
 ];
 
@@ -457,7 +447,10 @@ const ProjectCard = memo(
 
                   {/* View project link */}
                   <div>
-                    <span
+                    <Link
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-semibold tracking-[0.12em] uppercase cursor-pointer group/link transition-colors duration-300"
                       style={{ color: `${project.accent}80` }}
                     >
@@ -479,7 +472,7 @@ const ProjectCard = memo(
                           strokeLinejoin="round"
                         />
                       </svg>
-                    </span>
+                    </Link>
                   </div>
                 </div>
               </div>
