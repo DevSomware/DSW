@@ -695,6 +695,36 @@ export default function CraftReveal() {
         {PROJECTS.map((project, i) => (
           <ProjectCard key={project.id} project={project} index={i} />
         ))}
+
+        {/* View All Products button — after the last project card */}
+        <div className="flex justify-center pt-4 pb-12 sm:pb-16">
+          <Link
+            href="/product"
+            className="group inline-flex items-center gap-2.5"
+          >
+            <span
+              className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/4 px-6 py-3 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/50 transition-all duration-300 group-hover:border-white/25 group-hover:bg-white/8 group-hover:text-white/80"
+              style={{ fontFamily: "var(--font-geist-mono)" }}
+            >
+              View All Products
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 14 14"
+                fill="none"
+                className="transition-transform duration-300 group-hover:translate-x-0.5"
+              >
+                <path
+                  d="M1 7h11M8 3l4 4-4 4"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </Link>
+        </div>
       </div>
 
       <SectionDivider />

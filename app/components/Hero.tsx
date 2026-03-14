@@ -24,6 +24,7 @@ const staggerContainer = {
 
 const navLinks = [
   { name: "Work", href: "/work" },
+  { name: "Products", href: "/product" },
   { name: "Services", href: "/services" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
