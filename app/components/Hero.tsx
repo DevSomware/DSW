@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Lottie from "lottie-react";
 import diamondAnimation from "@/public/assets/diamond.json";
 import { NoiseBackground } from "@/app/components/ui/noise-background";
@@ -25,12 +26,19 @@ const navLinks = [
   { name: "Work", href: "#work" },
   { name: "Services", href: "#services" },
   { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export function Hero() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <section className="relative w-full min-h-[100svh] sm:min-h-[100dvh] overflow-hidden bg-black">
@@ -72,92 +80,88 @@ export function Hero() {
 
       <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
       <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-black/55 via-transparent to-black/20" />
-
       <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1], delay: 0.3 }}
-        className="
-          absolute w-full flex items-center justify-between
-          top-0 px-6
-          sm:px-10
-          lg:px-20
-          py-6 sm:py-8 lg:py-5
-          z-50
-          bg-transparent
-        "
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1], delay: 0.2 }}
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between
+          px-6 sm:px-10 lg:px-20 py-4 sm:py-5
+          transition-all duration-300
+          ${scrolled
+            ? "bg-black/75 backdrop-blur-md border-b border-white/[0.07]"
+            : "bg-transparent"
+          }`}
       >
-
-        <div className="relative" style={{ filter: 'url(#logo-grain)' }}>
-          <h1
-            className="
-              text-white/90 font-bold whitespace-nowrap tracking-wide
-              font-[family-name:var(--font-museo-moderno)]
-              text-base sm:text-xl lg:text-[28px]
-            "
+        <Link href="/" className="flex items-center gap-3 shrink-0 group" style={{ filter: "url(#logo-grain)" }}>
+          <div className="relative w-7 h-7 sm:w-8 sm:h-8">
+            <Image
+              src="/logo/logo-v2.png"
+              alt="Devsomeware"
+              fill
+              priority
+              className="object-contain brightness-90 group-hover:brightness-100 transition-all duration-300"
+            />
+          </div>
+          <span
+            className="text-white/85 font-bold whitespace-nowrap tracking-widest text-sm sm:text-base group-hover:text-white transition-colors duration-300"
+            style={{ fontFamily: "var(--font-museo-moderno)" }}
           >
-            DEVSOMEWARE .
-          </h1>
-        </div>
+            DEVSOMEWARE
+          </span>
+        </Link>
 
+        {/* Center nav links — desktop */}
         <div className="hidden lg:flex items-center gap-8 xl:gap-12 absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link, index) => (
             <motion.a
               key={link.name}
               href={link.href}
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-              className="
-                text-white/70 text-sm font-medium tracking-wide
-                hover:text-white/95 transition-colors duration-300
-                relative group
-              "
+              transition={{ duration: 0.5, delay: 0.45 + index * 0.08 }}
+              className="text-white/60 text-sm font-medium tracking-wide hover:text-white transition-colors duration-300 relative group"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white/90 group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/80 group-hover:w-full transition-all duration-300" />
             </motion.a>
           ))}
         </div>
 
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden relative w-6 h-6 flex items-center justify-center group"
-          aria-label="Toggle menu"
-        >
-          <div className="w-5 flex flex-col gap-1.5">
-            <motion.span
-              animate={mobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-              className="w-full h-[1px] bg-white/90 transition-all duration-300 origin-center"
-            />
-            <motion.span
-              animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-              className="w-full h-[1px] bg-white/90 transition-all duration-300"
-            />
-            <motion.span
-              animate={mobileMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-              className="w-full h-[1px] bg-white/90 transition-all duration-300 origin-center"
-            />
-          </div>
-        </button>
+        {/* Right side */}
+        <div className="flex items-center gap-4">
+          {/* Book a Call — desktop */}
+          <motion.a
+            href="/contact"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="hidden lg:inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/6 px-5 py-2 text-xs font-semibold tracking-widest uppercase text-white/70 hover:bg-white/10 hover:text-white hover:border-white/25 transition-all duration-300"
+            style={{ fontFamily: "var(--font-geist-mono)" }}
+          >
+            Book a Call
+          </motion.a>
 
-        <div
-          className="
-            relative
-            w-[45px]
-            sm:w-[70px]
-            lg:w-[110px]
-            aspect-[125/116]
-          "
-          style={{ filter: 'url(#logo-grain)' }}
-        >
-          <Image
-            src="/logo/logo-v2.png"
-            alt="Devsomeware Logo"
-            fill
-            priority
-            className="object-contain brightness-90"
-          />
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden relative w-6 h-6 flex items-center justify-center"
+            aria-label="Toggle menu"
+          >
+            <div className="w-5 flex flex-col gap-1.5">
+              <motion.span
+                animate={mobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+                className="w-full h-px bg-white/90 block transition-all duration-300 origin-center"
+              />
+              <motion.span
+                animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                className="w-full h-px bg-white/90 block transition-all duration-300"
+              />
+              <motion.span
+                animate={mobileMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+                className="w-full h-px bg-white/90 block transition-all duration-300 origin-center"
+              />
+            </div>
+          </button>
         </div>
       </motion.nav>
 
@@ -165,11 +169,7 @@ export function Hero() {
         initial={false}
         animate={mobileMenuOpen ? { opacity: 1, pointerEvents: "auto" } : { opacity: 0, pointerEvents: "none" }}
         transition={{ duration: 0.3 }}
-        className="
-          fixed inset-0 z-[45] lg:hidden
-          backdrop-blur-md bg-black/80
-          flex items-center justify-center
-        "
+        className="fixed inset-0 z-48 lg:hidden backdrop-blur-md bg-black/85 flex flex-col items-center justify-center"
       >
         <motion.div
           initial={false}
@@ -306,7 +306,7 @@ export function Hero() {
                   ]}
                 >
                   <a
-                    href="#contact"
+                    href="/contact"
                     className="flex min-w-[220px] items-center justify-center gap-2 cursor-pointer rounded-full bg-gradient-to-r from-black via-neutral-950 to-neutral-900 px-5 py-3 text-[11px] font-semibold tracking-[0.24em] uppercase text-white/85 shadow-[0px_1px_0px_0px_rgba(255,255,255,0.08)_inset] transition-all duration-150 hover:text-white active:scale-95 sm:min-w-0 sm:px-6 sm:py-3 sm:text-sm sm:tracking-widest"
                   >
                     Book a Strategy Call

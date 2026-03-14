@@ -203,6 +203,7 @@ export default function CTASection() {
   const videoRowRef  = useRef<HTMLDivElement>(null);
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const processRef   = useRef<HTMLDivElement>(null);
+  const videoRef     = useRef<HTMLVideoElement>(null);
   // cta card
   const cardTriggerRef = useRef<HTMLDivElement>(null);
   const cardRef      = useRef<HTMLDivElement>(null);
@@ -213,6 +214,27 @@ export default function CTASection() {
   const line2Ref     = useRef<HTMLDivElement>(null);
   const descRef      = useRef<HTMLParagraphElement>(null);
   const ctasRef      = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const resume = () => {
+      if (!video.paused) return;
+      video.play().catch(() => {});
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") resume();
+    };
+
+    video.addEventListener("pause", resume);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      video.removeEventListener("pause", resume);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -301,6 +323,7 @@ export default function CTASection() {
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(84,126,255,0.22),transparent_42%),radial-gradient(circle_at_top_right,rgba(232,122,255,0.16),transparent_36%),linear-gradient(135deg,#020202_0%,#0d0d12_52%,#050505_100%)]" />
               <video
+                ref={videoRef}
                 autoPlay
                 muted
                 loop
@@ -502,7 +525,7 @@ export default function CTASection() {
                 className="flex flex-col items-start lg:items-end gap-4 shrink-0"
                 style={{ opacity: 0 }}
               >
-                <MagneticButton href="mailto:hello@devsomeware.com">
+                <MagneticButton href="/contact">
                   Start a Project
                 </MagneticButton>
 
