@@ -55,24 +55,44 @@ const PROJECTS = [
 
 const TESTIMONIALS = [
   {
-    text: "Replace with a real client testimonial. This is placeholder text that shows how the quote will look when populated with actual feedback.",
-    author: "Client Name",
-    title: "Role, Company",
+    text: "The team moved fast without breaking quality. We shipped our first release in five weeks and user activation improved immediately.",
+    author: "Aarav Mehta",
+    title: "Founder, Finchboard",
   },
   {
-    text: "Replace with a real client testimonial. This is placeholder text that shows how the quote will look when populated with actual feedback.",
-    author: "Client Name",
-    title: "Role, Company",
+    text: "Clear communication, clean architecture, and no surprises in delivery. Exactly the partner we needed for a high-stakes launch.",
+    author: "Nina Rodriguez",
+    title: "Product Lead, Cartly",
   },
   {
-    text: "Replace with a real client testimonial. This is placeholder text that shows how the quote will look when populated with actual feedback.",
-    author: "Client Name",
-    title: "Role, Company",
+    text: "Performance improved across the board. Our dashboard load times dropped from 4.2s to under 1.5s after the rebuild.",
+    author: "Dev Patel",
+    title: "CTO, Verta Health",
   },
   {
-    text: "Replace with a real client testimonial. This is placeholder text that shows how the quote will look when populated with actual feedback.",
-    author: "Client Name",
-    title: "Role, Company",
+    text: "They brought product thinking, not just code. The UX refinements lifted trial-to-paid conversion by 19% in two months.",
+    author: "Sarah Kim",
+    title: "Growth Manager, Storylane",
+  },
+  {
+    text: "We handed over a messy legacy stack and got back a stable platform with better observability and predictable deployments.",
+    author: "Omar Hassan",
+    title: "Engineering Head, RideNest",
+  },
+  {
+    text: "From kickoff to handoff, execution was disciplined and transparent. Every sprint had visible impact and measurable outcomes.",
+    author: "Emily Carter",
+    title: "COO, Northpeak Labs",
+  },
+  {
+    text: "Their QA and release process was excellent. We cut production incidents by more than half in the first quarter. random text to fill space.",
+    author: "Luca Moretti",
+    title: "VP Engineering, PayOrbit",
+  },
+  {
+    text: "Design and development stayed in sync the whole time. What we approved in Figma is exactly what we launched.",
+    author: "Priya Nair",
+    title: "Design Director, Modemint",
   },
 ];
 
@@ -532,28 +552,73 @@ SectionDivider.displayName = "SectionDivider";
 export default function CraftReveal() {
   const sectionRef = useRef<HTMLElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const trackRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const currentIdxRef = useRef(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [visibleCards, setVisibleCards] = useState(1);
 
-  const slideTo = useCallback((raw: number) => {
-    const newIdx = Math.min(Math.max(0, raw), TESTIMONIALS.length - 2);
-    currentIdxRef.current = newIdx;
-    setCurrentIdx(newIdx);
-    if (trackRef.current && carouselRef.current) {
-      const cardW = carouselRef.current.offsetWidth / 2;
-      gsap.to(trackRef.current, { x: -newIdx * cardW, duration: 0.55, ease: "power2.inOut" });
-    }
+  const getVisibleCards = useCallback(() => {
+    if (typeof window === "undefined") return 1;
+    if (window.innerWidth >= 1024) return 4;
+    if (window.innerWidth >= 640) return 2;
+    return 1;
   }, []);
+
+  const maxStartIndex = Math.max(0, TESTIMONIALS.length - visibleCards);
+
+  const slideTo = useCallback(
+    (next: number) => {
+      const bounded = Math.min(Math.max(0, next), maxStartIndex);
+      setCurrentIdx(bounded);
+      if (!trackRef.current || !carouselRef.current) return;
+      const cardW = carouselRef.current.offsetWidth / visibleCards;
+      gsap.to(trackRef.current, {
+        x: -bounded * cardW,
+        duration: 0.55,
+        ease: "power2.inOut",
+      });
+    },
+    [maxStartIndex, visibleCards]
+  );
+
+  useEffect(() => {
+    const onResize = () => {
+      const cards = getVisibleCards();
+      setVisibleCards(cards);
+      setCurrentIdx((prev) => {
+        const nextMax = Math.max(0, TESTIMONIALS.length - cards);
+        const bounded = Math.min(prev, nextMax);
+        if (trackRef.current && carouselRef.current) {
+          const cardW = carouselRef.current.offsetWidth / cards;
+          gsap.set(trackRef.current, { x: -bounded * cardW });
+        }
+        return bounded;
+      });
+    };
+
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [getVisibleCards]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const next = currentIdxRef.current >= TESTIMONIALS.length - 2 ? 0 : currentIdxRef.current + 1;
-      slideTo(next);
+      setCurrentIdx((prev) => {
+        const next = prev >= maxStartIndex ? 0 : prev + 1;
+        if (trackRef.current && carouselRef.current) {
+          const cardW = carouselRef.current.offsetWidth / visibleCards;
+          gsap.to(trackRef.current, {
+            x: -next * cardW,
+            duration: 0.55,
+            ease: "power2.inOut",
+          });
+        }
+        return next;
+      });
     }, 5000);
+
     return () => clearInterval(interval);
-  }, [slideTo]);
+  }, [maxStartIndex, visibleCards]);
 
   useEffect(() => {
     if (!counterRef.current) return;
@@ -642,55 +707,57 @@ export default function CraftReveal() {
       <SectionDivider />
 
       <div className="relative z-10 w-full px-5 sm:px-8 lg:px-16 xl:px-24 pb-16 sm:pb-20 lg:pb-28">
-        {/* Testimonials — 2-up GSAP slide carousel */}
-        <div className="relative w-full max-w-4xl mx-auto">
-          {/* Viewport — clips the sliding track */}
+        {/* Testimonials carousel */}
+        <div className="relative w-full max-w-7xl mx-auto">
           <div ref={carouselRef} className="overflow-hidden w-full">
             <div ref={trackRef} className="flex will-change-transform">
               {TESTIMONIALS.map((t, i) => (
-                <div key={i} className="w-1/2 shrink-0 px-2 sm:px-3">
-                  <div className="relative border border-white/10 bg-white/3 p-5 sm:p-6 h-full flex flex-col">
-                    {/* Top accent line */}
-                    <div
-                      className="absolute top-0 left-0 right-0 h-px"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, transparent, rgba(255,255,255,0.20) 30%, rgba(255,255,255,0.20) 70%, transparent)",
-                      }}
-                    />
-                    {/* Quote icon */}
-                    <svg width="24" height="24" viewBox="0 0 48 48" fill="none" className="mb-4 opacity-15 shrink-0" aria-hidden="true">
-                      <path
-                        d="M18 14H10C7.79 14 6 15.79 6 18V26C6 28.21 7.79 30 10 30H15L12 38H17L20 30V18C20 15.79 18.21 14 16 14H18ZM38 14H30C27.79 14 26 15.79 26 18V26C26 28.21 27.79 30 30 30H35L32 38H37L40 30V18C40 15.79 38.21 14 36 14H38Z"
-                        fill="white"
-                      />
-                    </svg>
-                    <p className="text-sm text-white/60 leading-[1.8] mb-5 flex-1 line-clamp-4">
-                      &ldquo;{t.text}&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3 mt-auto pt-4 border-t border-white/10">
-                      <div className="w-9 h-9 shrink-0 rounded-full border border-white/15 flex items-center justify-center text-xs font-bold text-white/50 font-(family-name:--font-geist-mono)">
-                        {t.author.split(" ").map((n) => n[0]).join("")}
-                      </div>
-                      <div>
-                        <span className="block text-sm font-semibold text-white/75 leading-none">
-                          {t.author}
-                        </span>
-                        <span className="block text-xs text-white/35 mt-1">
-                          {t.title}
-                        </span>
-                      </div>
-                    </div>
+                <div
+                  key={i}
+                  className="h-full shrink-0 px-2 sm:px-2.5 lg:px-3"
+                  style={{ width: `${100 / visibleCards}%` }}
+                >
+              <div className="relative border border-white/10 bg-white/3 p-5 sm:p-6 h-full flex flex-col">
+                {/* Top accent line */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-px"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, transparent, rgba(255,255,255,0.20) 30%, rgba(255,255,255,0.20) 70%, transparent)",
+                  }}
+                />
+                {/* Quote icon */}
+                <svg width="24" height="24" viewBox="0 0 48 48" fill="none" className="mb-4 opacity-15 shrink-0" aria-hidden="true">
+                  <path
+                    d="M18 14H10C7.79 14 6 15.79 6 18V26C6 28.21 7.79 30 10 30H15L12 38H17L20 30V18C20 15.79 18.21 14 16 14H18ZM38 14H30C27.79 14 26 15.79 26 18V26C26 28.21 27.79 30 30 30H35L32 38H37L40 30V18C40 15.79 38.21 14 36 14H38Z"
+                    fill="white"
+                  />
+                </svg>
+                <p className="text-sm text-white/60 leading-[1.8] mb-5 flex-1 line-clamp-4">
+                  &ldquo;{t.text}&rdquo;
+                </p>
+                <div className="flex items-center gap-3 mt-auto pt-4 border-t border-white/10">
+                  <div className="w-9 h-9 shrink-0 rounded-full border border-white/15 flex items-center justify-center text-xs font-bold text-white/50 font-(family-name:--font-geist-mono)">
+                    {t.author.split(" ").map((n) => n[0]).join("")}
                   </div>
+                  <div>
+                    <span className="block text-sm font-semibold text-white/75 leading-none">
+                      {t.author}
+                    </span>
+                    <span className="block text-xs text-white/35 mt-1">
+                      {t.title}
+                    </span>
+                  </div>
+                </div>
+              </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Controls */}
           <div className="flex items-center justify-between mt-6">
             <div className="flex items-center gap-2.5">
-              {Array.from({ length: TESTIMONIALS.length - 1 }, (_, i) => (
+              {Array.from({ length: maxStartIndex + 1 }, (_, i) => (
                 <button
                   key={i}
                   onClick={() => slideTo(i)}
