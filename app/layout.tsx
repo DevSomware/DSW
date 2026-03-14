@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: absoluteUrl("/assets/bann.png"),
+        url: "/assets/bann.png",
         width: 1200,
         height: 630,
         alt: `${SITE_CONFIG.name} Open Graph Image`,
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: SITE_CONFIG.title,
     description: SITE_CONFIG.description,
     creator: SITE_CONFIG.twitterHandle,
-    images: [absoluteUrl("/assets/bann.png")],
+    images: ["/assets/bann.png"],
   },
   robots: {
     index: true,
@@ -90,7 +90,7 @@ const organizationSchema = {
   "@type": "Organization",
   name: SITE_CONFIG.legalName,
   url: baseUrl,
-  logo: absoluteUrl("/logo/logo-v2.png"),
+  logo: "/logo/logo-v2.png",
   email: "hello@devsomeware.com",
   sameAs: [
     "https://www.linkedin.com/company/devsomeware",
