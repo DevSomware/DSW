@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, MuseoModerno } from "next/font/google";
 import "./globals.css";
 import { absoluteUrl, getBaseUrl, SITE_CONFIG } from "@/lib/seo";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -123,6 +123,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        <SpeedInsights />
         {children}
       </body>
     </html>
