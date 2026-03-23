@@ -97,6 +97,21 @@ const PRODUCTS = [
     tags: ["react", "redis", "Node + Express", "MongoDB", "OpenAI"],
     accent: "#ef4444",
     metrics: ["100+ exams conducted", "500+ students assessed", "99.9% uptime"],
+  },
+  {
+    id: "P07",
+    name: "ArtisTec",
+    tagline: "SaaS platform empowering startups to build and scale faster",
+    category: "SaaS",
+    year: "2026",
+    status: "Live",
+    description:
+      "ArtisTec is a comprehensive SaaS platform built for startups. It provides an all-in-one suite for rapid product development, team collaboration, and scalable infrastructure — helping founders go from idea to launch faster than ever.",
+    image: "/projects/artistec.png",
+    link: "https://www.artistec.co",
+    tags: ["Next.js", "Startup", "TypeScript", "Node.js", "AWS"],
+    accent: "#6366f1",
+    metrics: ["500+ startups onboarded", "3x faster time-to-market", "99.9% uptime"],
   }
 ] as const;
 

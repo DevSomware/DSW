@@ -55,6 +55,17 @@ const PROJECTS = [
     tags: ["AI", "React Native", "NestJs", "MongoDB"],
     accent: "#3b82f6",
   },
+  {
+    id: "05",
+    name: "ArtisTec",
+    tagline: "SaaS platform empowering startups to build and scale faster",
+    description:
+      "ArtisTec is a comprehensive SaaS platform built for startups. It provides an all-in-one suite for rapid product development, team collaboration, and scalable infrastructure — helping founders go from idea to launch faster than ever.",
+    image: "/projects/artistec.png",
+    link: "https://www.artistec.co",
+    tags: ["Next.js", "TypeScript", "Node.js", "AWS"],
+    accent: "#6366f1",
+  },
 ];
 
 
