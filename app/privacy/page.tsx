@@ -10,154 +10,146 @@ import Footer from "@/app/components/Footer";
 
 gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 
-const LAST_UPDATED = "15 March 2026";
+const LAST_UPDATED = "23 April 2026";
 
 const SECTIONS = [
   {
-    id: "information-we-collect",
-    title: "1. Information We Collect",
+    id: "introduction",
+    title: "1. Introduction",
     body: [
       {
-        heading: "Information you provide directly",
-        text: "When you fill out our contact or enquiry forms, we collect your name, email address, company name, job title, phone number (optional), and any message you submit. This information is provided voluntarily by you.",
+        heading: "Purpose",
+        text: "This Privacy Policy explains how we collect, use, store, and protect personal information when you visit our website or engage our services.",
+      },
+      {
+        heading: "Your consent",
+        text: "By using this website or submitting information to us, you agree to the collection and use of information as described in this policy.",
+      },
+    ],
+  },
+  {
+    id: "information-collected",
+    title: "2. Information We Collect",
+    body: [
+      {
+        heading: "Information you provide",
+        text: "We may collect your name, email address, phone number, company details, and any content you submit through forms, messages, or project communication.",
       },
       {
         heading: "Automatically collected information",
-        text: "When you visit our website, we may collect standard server log data such as your IP address, browser type, operating system, referring URLs, and pages visited. This data is used solely for security monitoring and aggregate analytics — it is not linked to your personal identity.",
+        text: "When you use our website, we may collect technical information such as IP address, device information, browser type, pages viewed, and timestamps.",
       },
       {
-        heading: "No tracking cookies without consent",
-        text: "We do not use third-party advertising or behavioural tracking cookies. Any first-party session cookies used are strictly necessary for the operation of the site.",
+        heading: "Usage logs",
+        text: "We may maintain logs for security, abuse prevention, debugging, and service performance monitoring.",
       },
     ],
   },
   {
     id: "how-we-use-information",
-    title: "2. How We Use Your Information",
+    title: "3. How We Use Information",
     body: [
       {
-        heading: "Responding to enquiries",
-        text: "The primary use of information you submit through our contact forms is to respond to your enquiry, evaluate your project requirements, and provide you with relevant information about our services.",
+        heading: "Service operations",
+        text: "We use collected information to provide services, respond to inquiries, manage projects, and maintain communication with clients and users.",
       },
       {
-        heading: "Service delivery",
-        text: "If you engage Devsomeware for a project, your contact details are used for project communication, invoicing, and contractual purposes within the scope of our registered entity under Indian law.",
+        heading: "Improvement and analytics",
+        text: "We may use information to analyze usage trends, improve website functionality, and enhance the quality of our services.",
       },
       {
-        heading: "No marketing without consent",
-        text: "We do not add you to any marketing mailing list without your explicit consent. We will never sell, rent, or trade your personal information to third parties.",
-      },
-      {
-        heading: "Internal analytics and improvement",
-        text: "Anonymised, aggregate data about website usage may be used internally to improve our website content and user experience. No personally identifiable information is used for this purpose.",
+        heading: "Compliance",
+        text: "We may use and retain information to satisfy legal, accounting, tax, and compliance requirements.",
       },
     ],
   },
   {
-    id: "data-sharing",
-    title: "3. Data Sharing and Disclosure",
+    id: "sharing",
+    title: "4. Sharing and Disclosure",
     body: [
       {
-        heading: "We do not sell your data",
-        text: "Devsomeware does not sell, lease, or monetise your personal information in any form.",
+        heading: "No sale of personal data",
+        text: "We do not sell personal information to third parties.",
       },
       {
-        heading: "Service providers",
-        text: "We may share strictly necessary information with trusted third-party service providers (such as email delivery infrastructure) solely to fulfil requests you have initiated. These providers are contractually bound to process data only as instructed.",
+        heading: "Trusted service providers",
+        text: "We may share information with hosting, communication, analytics, and operational vendors where needed to operate our services. Such sharing is limited to legitimate business purposes.",
       },
       {
-        heading: "Legal obligations",
-        text: "We may disclose information if required to do so by law, court order, or in response to a valid request by a government authority in India, as required under the Information Technology Act, 2000 and applicable rules.",
-      },
-      {
-        heading: "Business transfers",
-        text: "In the event of a merger, acquisition, or sale of all or part of our business, personal data may be transferred as part of that transaction. We will notify affected users and ensure equivalent data protection obligations are maintained.",
+        heading: "Legal disclosures",
+        text: "We may disclose information where required by law, regulation, legal process, or valid governmental request.",
       },
     ],
   },
   {
-    id: "data-retention",
-    title: "4. Data Retention",
+    id: "retention",
+    title: "5. Data Retention",
     body: [
       {
-        heading: "Enquiry data",
-        text: "Contact form submissions are retained for up to 24 months from the date of submission, or for the duration of any resulting business relationship, whichever is longer.",
-      },
-      {
-        heading: "Client data",
-        text: "Data related to active client projects is retained for the duration of the engagement plus a minimum of 3 years for legal and accounting purposes, in accordance with India's Companies Act and tax regulations.",
-      },
-      {
-        heading: "Deletion requests",
-        text: "You may request deletion of your personal data at any time by contacting us at the address listed in Section 8. We will process valid deletion requests within 30 days, subject to any legal retention obligations.",
-      },
-    ],
-  },
-  {
-    id: "data-security",
-    title: "5. Data Security",
-    body: [
-      {
-        heading: "Technical measures",
-        text: "Our website is served over HTTPS. Form submissions are transmitted using TLS encryption. Internally stored submission data is kept on secured servers with access restricted to authorised personnel only.",
-      },
-      {
-        heading: "Organisational measures",
-        text: "Access to personal data is granted on a need-to-know basis. Employees and contractors who handle client data are bound by confidentiality obligations.",
-      },
-      {
-        heading: "No guaranteed security",
-        text: "While we implement industry-standard security measures, no method of electronic transmission or storage is 100% secure. We cannot guarantee absolute security but commit to promptly notifying affected individuals in the event of a data breach that poses a significant risk.",
-      },
-    ],
-  },
-  {
-    id: "your-rights",
-    title: "6. Your Rights",
-    body: [
-      {
-        heading: "Access and correction",
-        text: "You have the right to request a copy of the personal information we hold about you, and to request correction of any inaccurate data.",
+        heading: "Retention period",
+        text: "We retain personal information only as long as required for service delivery, legal compliance, dispute resolution, and enforcement of agreements.",
       },
       {
         heading: "Deletion",
-        text: "You may request that we delete your personal data. We will comply unless we are required to retain it for legal reasons.",
+        text: "Where feasible and legally permissible, we will delete or anonymize personal information when it is no longer needed.",
+      },
+    ],
+  },
+  {
+    id: "security",
+    title: "6. Data Security",
+    body: [
+      {
+        heading: "Safeguards",
+        text: "We implement reasonable technical and organizational safeguards to protect information against unauthorized access, loss, misuse, or alteration.",
       },
       {
-        heading: "Withdrawal of consent",
-        text: "Where processing is based on your consent, you may withdraw that consent at any time. This will not affect the lawfulness of processing prior to withdrawal.",
+        heading: "No absolute guarantee",
+        text: "No transmission or storage system is fully secure. While we strive to protect data, we cannot guarantee absolute security.",
+      },
+    ],
+  },
+  {
+    id: "rights",
+    title: "7. Your Rights",
+    body: [
+      {
+        heading: "Access and correction",
+        text: "You may request access to personal information we hold about you and request correction of inaccurate or incomplete data.",
       },
       {
-        heading: "How to exercise your rights",
-        text: "To exercise any of these rights, please contact us at hello@devsomeware.com with the subject line 'Data Privacy Request'. We will respond within 30 calendar days.",
+        heading: "Deletion and objection",
+        text: "You may request deletion of personal information or object to certain processing, subject to legal and contractual obligations.",
       },
     ],
   },
   {
     id: "third-party-links",
-    title: "7. Third-Party Links",
+    title: "8. Third-Party Links",
     body: [
       {
-        heading: "External websites",
-        text: "Our website may contain links to third-party websites (including social media platforms). We are not responsible for the privacy practices or content of those websites. We encourage you to review the privacy policies of any third-party sites you visit.",
+        heading: "External sites",
+        text: "Our website may contain links to third-party websites. We are not responsible for the privacy practices, content, or security of those external sites.",
+      },
+    ],
+  },
+  {
+    id: "policy-updates",
+    title: "9. Policy Updates",
+    body: [
+      {
+        heading: "Changes to this policy",
+        text: "We may update this Privacy Policy from time to time. Updated versions will be posted on this page with a revised Last Updated date.",
       },
     ],
   },
   {
     id: "contact",
-    title: "8. Contact & Grievance Redressal",
+    title: "10. Contact",
     body: [
       {
-        heading: "Data controller",
-        text: "Devsomeware Technology Private Limited is the data controller responsible for your personal information.",
-      },
-      {
-        heading: "Contact details",
-        text: "For any privacy-related queries, requests, or complaints, please contact us at: hello@devsomeware.com. We aim to acknowledge all requests within 5 business days and resolve them within 30 calendar days.",
-      },
-      {
-        heading: "Grievance officer",
-        text: "In accordance with the Information Technology Act, 2000, a Grievance Officer is designated to address complaints. You may reach the Grievance Officer at the email address above with the subject line 'Grievance — Privacy'.",
+        heading: "Privacy inquiries",
+        text: "For privacy requests or questions, contact us at hello@devsomeware.com.",
       },
     ],
   },

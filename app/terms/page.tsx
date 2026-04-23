@@ -10,7 +10,7 @@ import Footer from "@/app/components/Footer";
 
 gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 
-const LAST_UPDATED = "15 March 2026";
+const LAST_UPDATED = "23 April 2026";
 
 const SECTIONS = [
   {
@@ -19,11 +19,11 @@ const SECTIONS = [
     body: [
       {
         heading: "Agreement to these terms",
-        text: "By accessing this website or engaging Devsomeware Technology Private Limited ('Devsomeware', 'we', 'us') for any services, you agree to be bound by these Terms and Conditions. If you do not agree, you must not use this website or engage our services.",
+        text: "By accessing this website or using our services, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use this website or our services.",
       },
       {
         heading: "Capacity to contract",
-        text: "You represent that you are at least 18 years of age and have the legal authority to enter into binding agreements on behalf of yourself or the organisation you represent.",
+        text: "You represent that you are at least 18 years of age and legally authorized to enter into binding agreements for yourself or the entity you represent.",
       },
     ],
   },
@@ -33,15 +33,15 @@ const SECTIONS = [
     body: [
       {
         heading: "Scope of work",
-        text: "All services provided by Devsomeware are governed by a separate written Statement of Work (SOW) or Service Agreement executed between Devsomeware and the client. These Terms and Conditions apply in addition to, and do not replace, any such agreement.",
+        text: "Services are governed by a project proposal, statement of work, contract, or any other written agreement accepted by both parties. These Terms apply in addition to such agreements.",
       },
       {
         heading: "Service descriptions on this website",
-        text: "Information about our services on this website is provided for general informational purposes only and does not constitute a binding offer. Actual scope, pricing, and timelines are defined exclusively in signed project agreements.",
+        text: "Any service description on this website is for informational purposes only and does not constitute a binding offer.",
       },
       {
         heading: "Modifications to services",
-        text: "We reserve the right to modify, suspend, or discontinue any service offering described on this website at our discretion, without notice. This does not affect obligations under any existing signed agreements.",
+        text: "We may update, modify, suspend, or discontinue any website feature or service offering at our discretion, subject to commitments already made under signed agreements.",
       },
     ],
   },
@@ -51,19 +51,19 @@ const SECTIONS = [
     body: [
       {
         heading: "Payment schedule",
-        text: "All payment terms — including instalment schedules, advance payments, and final balances — are specified in the signed project agreement. Standard practice requires a minimum advance of 50% before work commences.",
+        text: "Payment terms, milestones, due dates, and applicable charges are defined in the relevant agreement, proposal, or invoice.",
       },
       {
         heading: "Invoicing",
-        text: "Devsomeware is a GST-registered Private Limited company. All invoices will be issued with applicable GST as required under Indian law. Clients are responsible for obtaining their own tax advice regarding deductibility.",
+        text: "Invoices are issued in accordance with applicable law and must be paid within the agreed time period.",
       },
       {
         heading: "Late payment",
-        text: "Invoices not settled within the agreed period may attract a late fee as specified in the project agreement. Devsomeware reserves the right to pause work on outstanding projects where invoices remain overdue beyond 14 calendar days without written notice.",
+        text: "Delayed payments may result in service pause, delayed delivery, or additional charges where permitted by law and agreed terms.",
       },
       {
         heading: "Refunds",
-        text: "Refund eligibility is determined by the specific terms of the signed project agreement. Advance payments for work already completed are generally non-refundable unless otherwise agreed in writing.",
+        text: "Refunds are governed by our Refund Policy and any applicable project-specific agreement.",
       },
     ],
   },
@@ -73,19 +73,19 @@ const SECTIONS = [
     body: [
       {
         heading: "Ownership transfer on completion",
-        text: "Upon receipt of full and final payment, all intellectual property rights in the deliverables created exclusively for the client under a project agreement — including source code, designs, and documentation — transfer fully to the client.",
+        text: "Ownership of deliverables transfers only as explicitly stated in the applicable project agreement and after full payment of all dues.",
       },
       {
-        heading: "Devsomeware-owned components",
-        text: "Where deliverables incorporate Devsomeware's pre-existing proprietary tools, libraries, or frameworks, or open-source components, those elements remain subject to their original licences. We will clearly identify any such components during the project.",
+        heading: "Pre-existing materials",
+        text: "Each party retains ownership of its pre-existing intellectual property, tools, templates, and know-how unless otherwise agreed in writing.",
       },
       {
         heading: "Portfolio rights",
-        text: "Devsomeware retains the right to reference the existence of a client engagement (name, industry, and general nature of work) in our portfolio and marketing materials, unless the client has requested confidentiality in writing.",
+        text: "Unless restricted by a confidentiality agreement, we may reference completed work in portfolios and marketing materials.",
       },
       {
         heading: "Website content",
-        text: "All content on this website — including text, design, graphics, and code — is the property of Devsomeware Technology Private Limited and is protected under applicable copyright law. Reproduction without written consent is prohibited.",
+        text: "Website content, branding, and materials are protected by intellectual property laws and may not be copied or reused without prior written permission.",
       },
     ],
   },
@@ -95,11 +95,11 @@ const SECTIONS = [
     body: [
       {
         heading: "Mutual confidentiality",
-        text: "Both parties agree to hold in confidence any non-public information disclosed during the course of an engagement ('Confidential Information') and to use such information only for the purposes of fulfilling obligations under the relevant project agreement.",
+        text: "Both parties agree to keep confidential information private and use it only for legitimate business purposes related to the engagement.",
       },
       {
-        heading: "NDA capability",
-        text: "As a registered Private Limited company, Devsomeware is fully capable of entering into formal Non-Disclosure Agreements. Clients may request an NDA before sharing sensitive information. Please contact us at hello@devsomeware.com.",
+        heading: "Non-disclosure agreements",
+        text: "Where required, parties may execute a separate non-disclosure agreement that will govern confidentiality obligations in more detail.",
       },
     ],
   },
@@ -109,19 +109,19 @@ const SECTIONS = [
     body: [
       {
         heading: "Service warranty",
-        text: "Devsomeware warrants that services will be performed in a professional and workmanlike manner, consistent with reasonable industry standards. Specific warranty periods and remedies are defined in the signed project agreement.",
+        text: "Services are provided using commercially reasonable skill and care, subject to the limitations stated in applicable agreements.",
       },
       {
         heading: "Website disclaimer",
-        text: "This website is provided 'as is' without warranties of any kind, express or implied. We do not warrant that the website will be error-free, uninterrupted, or free of viruses or other harmful components.",
+        text: "This website is provided on an as-is and as-available basis without warranties of any kind, to the extent permitted by law.",
       },
       {
         heading: "Limitation of liability",
-        text: "To the maximum extent permitted by applicable law, Devsomeware's aggregate liability to any client for any claims arising out of or related to a project shall not exceed the total fees paid by the client under the relevant project agreement during the 12 months preceding the claim.",
+        text: "To the maximum extent permitted by law, our aggregate liability is limited to the amount paid by the client for the specific services giving rise to the claim, unless otherwise agreed in writing.",
       },
       {
         heading: "Exclusion of consequential damages",
-        text: "In no event shall Devsomeware be liable for any indirect, incidental, special, punitive, or consequential damages, including loss of profits, data, or business opportunity, even if advised of the possibility of such damages.",
+        text: "We are not liable for indirect, incidental, special, punitive, or consequential losses, including loss of profits, revenue, opportunity, or data.",
       },
     ],
   },
@@ -131,15 +131,15 @@ const SECTIONS = [
     body: [
       {
         heading: "Termination by either party",
-        text: "Either party may terminate a project agreement in accordance with the termination provisions contained within that agreement. The notice period and payment obligations upon termination are specified therein.",
+        text: "Either party may terminate services in accordance with the applicable agreement or mutually agreed written terms.",
       },
       {
         heading: "Effect of termination",
-        text: "Upon termination, the client will owe payment for all work completed up to the termination date, calculated on a pro-rata basis against the agreed project price unless otherwise specified in the project agreement.",
+        text: "On termination, fees for completed work, approved expenses, and outstanding invoices become immediately due unless stated otherwise in writing.",
       },
       {
         heading: "Survival",
-        text: "Sections relating to Intellectual Property, Confidentiality, Limitation of Liability, and Governing Law shall survive the termination of any agreement.",
+        text: "Provisions that by nature should survive termination, including payment, confidentiality, intellectual property, and liability limitations, will continue to apply.",
       },
     ],
   },
@@ -149,15 +149,15 @@ const SECTIONS = [
     body: [
       {
         heading: "Governing law",
-        text: "These Terms and Conditions and any agreements entered into under them are governed by and construed in accordance with the laws of India, including but not limited to the Indian Contract Act, 1872, and the Information Technology Act, 2000.",
+        text: "These Terms are governed by applicable laws of India, unless a different governing law is expressly set in a signed agreement.",
       },
       {
         heading: "Dispute resolution",
-        text: "In the event of any dispute, the parties shall first attempt in good faith to resolve the matter through negotiation within 30 calendar days. If unresolved, disputes shall be submitted to binding arbitration under the Arbitration and Conciliation Act, 1996, with the seat of arbitration in India.",
+        text: "Parties agree to first attempt good-faith resolution through discussion. If unresolved, disputes may be handled through arbitration or courts as provided in the governing agreement.",
       },
       {
         heading: "Jurisdiction",
-        text: "For matters not subject to arbitration, you agree to submit to the exclusive jurisdiction of the courts of India.",
+        text: "For matters not settled by arbitration, competent courts under applicable law will have jurisdiction.",
       },
     ],
   },
@@ -167,19 +167,19 @@ const SECTIONS = [
     body: [
       {
         heading: "Entire agreement",
-        text: "These Terms and Conditions, together with any signed project agreement, constitute the entire agreement between the parties and supersede all prior communications, representations, or agreements relating to the subject matter.",
+        text: "These Terms, together with any applicable order form, proposal, contract, or statement of work, form the complete understanding between parties for the subject matter.",
       },
       {
         heading: "Severability",
-        text: "If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall continue in full force and effect.",
+        text: "If any provision is held invalid, the remaining provisions continue in full force and effect.",
       },
       {
         heading: "Amendments",
-        text: "We reserve the right to update these Terms at any time. The revised Terms will be posted on this page with an updated 'Last Updated' date. Continued use of the website or our services after changes constitutes acceptance.",
+        text: "We may update these Terms from time to time. Updated terms will be posted with a revised Last Updated date.",
       },
       {
         heading: "Contact",
-        text: "For any questions regarding these Terms, please contact us at: hello@devsomeware.com",
+        text: "For questions regarding these Terms, please contact hello@devsomeware.com.",
       },
     ],
   },

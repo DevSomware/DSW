@@ -15,6 +15,7 @@ const navLinks = [
   { label: "Contact Us", href: "/contact" },
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms & Conditions", href: "/terms" },
+  { label: "Refund Policy", href: "/refund" },
 ];
 
 const LinkedIn = () => (
