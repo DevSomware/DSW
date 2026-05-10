@@ -9,6 +9,7 @@ import ScrollRibbon from '@/app/components/ScrollRibbon';
 import CTASection from '@/app/components/CTASection';
 import TechStack from '@/app/components/TechStack';
 import Footer from '@/app/components/Footer';
+import DroneSpotlight from '@/app/components/DroneSpotlight';
 
 const emptySubscribe = () => () => {};
 
@@ -41,6 +42,7 @@ export default function Home() {
       <Hero />
       <ScrollRibbon />
       <ContentSection />
+      <DroneSpotlight />
       <CraftReveal />
       <CTASection />
       <TechStack />
